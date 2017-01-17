@@ -14,5 +14,17 @@
     "start": "node server.js"
   },
   "author": "Jose G. Annunziato",
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielZhangLing/LING-ZHANG-webdev.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/DanielZhangLing/LING-ZHANG-webdev/issues"
+  },
+  "homepage": "https://github.com/DanielZhangLing/LING-ZHANG-webdev#readme"
 }
