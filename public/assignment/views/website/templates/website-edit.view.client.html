@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../css/style.css" rel="stylesheet"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <title>Edit Website</title>
-</head>
-<body>
-
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="row container-fluid blue-background blue-background">
         <div class="col-sm-4 hidden-xs padding-left-zero">
             <div class="navbar-text pull-left ">
-                <a href="website-list.html"class="white-color">
+                <a href="#/user/{{model.userId}}/website" class="white-color">
                     <span class="glyphicon glyphicon-chevron-left"/>
                 </a>
             </div>
             <div class="navbar-text pull-right">
-                <a href="website-new.html" class="white-color">
+                <a href="#/user/{{model.userId}}/website/new" class="white-color">
                     <span class="glyphicon glyphicon-plus"/>
                 </a>
             </div>
@@ -30,7 +19,7 @@
         </div>
         <div class="col-sm-8">
             <div class="navbar-text pull-right margin-adjust">
-                <a href="website-list.html" class="white-color">
+                <a ng-click="model.updateWebsite(model.website)" class="white-color">
                     <span class="glyphicon glyphicon-ok"/>
                 </a>
             </div>
@@ -46,35 +35,11 @@
     <div class="col-sm-4 hidden-xs wbdv-left-pane">
         <form>
             <ul class="list-group blue-color">
-                <li class="list-group-item">
-                    <a href="../page/page-list.html">
-                        Address Book App
+                <li class="list-group-item" ng-repeat="website in model.websites">
+                    <a href="#/user/{{model.userId}}/website/{{website._id}}/page">
+                        {{website.name}}
                     </a>
-                    <a href="website-edit.html">
-                        <span class="glyphicon glyphicon-cog pull-right"/>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../page/page-list.html">
-                        Blogger
-                    </a>
-                    <a href="website-edit.html">
-                        <span class="glyphicon glyphicon-cog pull-right"/>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../page/page-list.html">
-                        Blogging App
-                    </a>
-                    <a href="website-edit.html">
-                        <span class="glyphicon glyphicon-cog pull-right"/>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="../page/page-list.html">
-                        Stript Testing App
-                    </a>
-                    <a href="website-edit.html">
+                    <a href="#/user/{{model.userId}}/website/{{website._id}}">
                         <span class="glyphicon glyphicon-cog pull-right"/>
                     </a>
                 </li>
@@ -85,14 +50,17 @@
         <form>
             <label for="Website Name">Website Name</label>
             <div class="form-group">
-                <input type="text" class="form-control" id="Website Name" placeholder="Website Name" value="ToDoList">
+                <input ng-model="model.website.name" type="text" class="form-control" id="Website Name" placeholder="Website Name" value="ToDoList">
             </div>
             <label for="Website Description">Website Description</label>
             <div class="form-group">
-                <textarea class="form-control" rows="5" id="Website Description" placeholder="Website Description"></textarea>
+                <textarea ng-model="model.website.description" class="form-control" rows="5" id="Website Description"
+                          placeholder="Website Description"></textarea>
             </div>
+            <a class="btn btn-primary btn-block"
+               ng-click="model.updateWebsite(model.website)">Update</a>
             <a class="btn btn-danger btn-block"
-               href="../website/website-list.html">Delete</a>
+               ng-click="model.deleteWebsite()">Delete</a>
         </form>
     </div>
 </div>
@@ -105,11 +73,9 @@
             </a>
         </div>
         <div class="navbar-text pull-right">
-            <a href="../user/profile.html" class="white-color ">
+            <a href="#/profile/{{model.userId}}" class="white-color ">
                 <span class="glyphicon glyphicon-user"/>
             </a>
         </div>
     </div>
 </nav>
-</body>
-</html>

@@ -1,32 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Page</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../css/style.css" rel="stylesheet"/>
-</head>
-<body>
-
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
 
 
         <div class="navbar-text pull-left">
-            <a href="page-list.html" class="navbar-link">
+            <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page" class="black-color">
                 <span class="glyphicon glyphicon-chevron-left"/>
             </a>
         </div>
 
         <div class="navbar-text pull-right">
-            <a href="page-list.html" class="black-color">
+            <a ng-click="model.updatePage(model.page)" class="black-color">
                 <span class="glyphicon glyphicon-ok"/>
             </a>
         </div>
         <div class="navbar-header">
-            <a class="navbar-brand white-color" href="page-list.html">
-                New Page
+            <a class="navbar-brand white-color">
+                Edit Page
             </a>
         </div>
 
@@ -37,16 +26,18 @@
 <div class="container">
     <form>
         <label for="Name">Name</label>
-        <input type="text" class="form-control" id="Name" placeholder="Name">
+        <input ng-model="model.page.name" type="text" class="form-control" id="Name" placeholder="Name">
         <label for="Title">Title</label>
-        <input type="text" class="form-control" id="Title" placeholder="Title">
+        <input ng-model="model.page.title" type="text" class="form-control" id="Title" placeholder="Page Title" value="Blog Post">
+        <a class="btn btn-block btn-primary" ng-click="model.updatePage(model.page)">Update</a>
+        <a class="btn btn-block btn-danger" ng-click="model.deletePage()">Delete</a>
     </form>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
         <div class="navbar-text pull-right">
-            <a href="../user/profile.html" class="blue-color">
+            <a href="#/profile/{{model.userId}}" class="blue-color">
           <span class="glyphicon glyphicon-user">
           </span>
             </a>
@@ -54,5 +45,3 @@
     </div>
 </nav>
 
-</body>
-</html>

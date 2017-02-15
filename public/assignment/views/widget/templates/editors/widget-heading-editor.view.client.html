@@ -1,0 +1,18 @@
+<label for="Name">Name</label>
+<input ng-model="model.widget.name" type="text" class="form-control" id="Name" placeholder="Name">
+<label for="Text">Text</label>
+<input ng-model="model.widget.text" type="text" class="form-control" id="Text" placeholder="Text" value="" wireframe>
+<label for="Size">Size</label>
+<select ng-model="model.widget.size" class="form-control" id="Size" placeholder="Size">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+</select>
+<a class="btn btn-block btn-danger"
+   ng-show="model.widgetId!=null" ng-click="model.deleteWidget()">Delete</a>
+<a class="btn btn-block btn-danger"
+   ng-show="model.widgetId==null"
+   href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/new">Cancel</a>
