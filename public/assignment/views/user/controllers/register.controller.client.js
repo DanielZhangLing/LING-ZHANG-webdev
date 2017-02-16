@@ -10,7 +10,10 @@
         vm.register = register;
 
         function register(user){
-            if(UserService.findUserByUsername(user.username)== null){
+            if(user==null||user.username==null||user.password==null){
+                vm.error = "username and password are required"
+            }
+            else if(UserService.findUserByUsername(user.username)== null){
                 UserService.createUser(user);
                 $location.url("/profile/" + user._id)
             }

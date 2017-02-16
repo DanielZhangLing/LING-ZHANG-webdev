@@ -25,10 +25,13 @@
 
 <div class="container">
     <form>
+        <div class="alert alert-danger" ng-show="model.error">
+            {{model.error}}
+        </div>
         <label for="Name">Name</label>
-        <input ng-model="model.page.name" type="text" class="form-control" id="Name" placeholder="Name">
+        <input ng-model="model.page.name" type="text" class="form-control" id="Name" placeholder="Name" required>
         <label for="Title">Title</label>
-        <input ng-model="model.page.title" type="text" class="form-control" id="Title" placeholder="Title">
+        <input ng-model="model.page.title" type="text" class="form-control" id="Title" placeholder="Title" required>
     </form>
 </div>
 
