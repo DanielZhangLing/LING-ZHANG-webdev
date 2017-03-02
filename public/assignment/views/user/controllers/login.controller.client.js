@@ -13,14 +13,17 @@
         init();
 
         function login(user) {
-            var loginUser = UserService.
+            var promise = UserService.
                 findUserByCredentials(user.username, user.password);
-            if (loginUser != null) {
-                $location.url("/profile/" + loginUser._id)
-            }
-            else {
-                vm.error = "user not found, either username or password could be incorrect!"
-            }
+            promise.success(function(user){
+                if (user != null) {
+                    $location.url("/profile/" + user._id)
+                }
+                else {
+                    vm.error = "user not found, either username or password could be incorrect!"
+                }
+            });
+
         }
 
     }

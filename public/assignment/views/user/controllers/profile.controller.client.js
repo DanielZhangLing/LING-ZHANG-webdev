@@ -11,18 +11,25 @@
         vm.updateUser = updateUser;
 
         function init() {
-            var user = UserService.findUserById(userId);
-            vm.user = user;
+            var promise = UserService.findUserById(userId);
+            promise.success(function (user) {
+                vm.user = user;
+            });
         }
+
         init();
 
         function updateUser(newUser) {
-            var user = UserService.updateUser(userId, newUser);
-            if (user == null) {
-                vm.error = "unable to update user";
-            } else {
-                vm.message = "user successfully updated"
-            }
+            UserService
+                .updateUser(userId, newUser)
+                .success(function (user) {
+                    if (user == null) {
+                        vm.error = "unable to update user";
+                    } else {
+                        vm.message = "user successfully updated"
+                    }
+                });
+
         }
     }
 })();

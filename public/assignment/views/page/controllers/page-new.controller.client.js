@@ -13,6 +13,15 @@
         vm.createPage = createPage;
 
         function init() {
+            var promise = PageService.findPageById(vm.pageId);
+            promise.success(function(page){
+                vm.page = page;
+            });
+
+            var promise2 = PageService.findPageByWebsiteId(vm.websiteId);
+            promise2.success(function(pages){
+                vm.pages = pages;
+            });
         }
 
         init();
@@ -21,8 +30,11 @@
             if (newPage == null || newPage.name == null || newPage.title == null)
                 vm.error = "name and title are required";
             else {
-                PageService.createPage(vm.websiteId, newPage);
-                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+                PageService
+                    .createPage(vm.websiteId, newPage)
+                    .success(function(){
+                        $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+                    });
             }
         }
     }

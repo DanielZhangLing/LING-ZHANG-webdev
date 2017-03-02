@@ -11,7 +11,11 @@
         vm.websiteId = $routeParams["wid"];
 
         function init(){
-            vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+            var promise = PageService
+                .findPageByWebsiteId(vm.websiteId);
+            promise.success(function(pages){
+                vm.pages = pages;
+            })
         }
         init();
     }

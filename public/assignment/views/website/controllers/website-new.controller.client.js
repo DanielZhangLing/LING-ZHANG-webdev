@@ -12,8 +12,11 @@
         vm.createWebsite = createWebsite;
 
         function init() {
-            vm.website = WebsiteService.findWebsiteById(vm.websiteId);
-            vm.websites = WebsiteService.findWebsitesByUser(vm.userId);
+            WebsiteService
+                .findAllWebsitesForUser(vm.userId)
+                .success(function (websites) {
+                    vm.websites = websites;
+                });
         }
 
         init();
@@ -22,8 +25,11 @@
             if (newWebsite == null || newWebsite.name == null)
                 vm.error = "name is required";
             else {
-                WebsiteService.createWebsite(vm.userId, newWebsite);
-                $location.url("/user/" + vm.userId + "/website");
+                WebsiteService
+                    .createWebsite(vm.userId, newWebsite)
+                    .success(function () {
+                        $location.url("/user/" + vm.userId + "/website");
+                    });
             }
         }
     }

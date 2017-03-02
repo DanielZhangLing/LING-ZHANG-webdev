@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("WidgetNewController", WidgetNewController)
-    function WidgetNewController($routeParams, WidgetService, $location) {
+    function WidgetNewController($routeParams) {
         var vm = this;
         vm.userId = $routeParams.uid;
         vm.websiteId = $routeParams.wid;
