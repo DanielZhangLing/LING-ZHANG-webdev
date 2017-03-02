@@ -6,8 +6,3 @@
 <input ng-model="model.widget.url" type="url" class="form-control" id="Url" placeholder="URL">
 <label for="Width">Width</label>
 <input ng-model="model.widget.width" type="text" class="form-control" id="Width" placeholder="Width">
-<a class="btn btn-block btn-danger"
-   ng-show="model.widgetId!=null" ng-click="model.deleteWidget()">Delete</a>
-<a class="btn btn-block btn-danger"
-   ng-show="model.widgetId==null"
-   href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/new">Cancel</a>

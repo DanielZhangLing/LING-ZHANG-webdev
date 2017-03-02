@@ -19,14 +19,12 @@
             WidgetService
                 .findWidgetById(vm.widgetId)
                 .success(function (widget) {
-                    console.log("run 1");
                     vm.widget = widget;
                     vm.widgetType = vm.widget.widgetType;
 
                 })
                 .error(function () {
                     vm.widgetType = $routeParams.wgt;
-                    console.log("run 3");
                 });
             // console.log(vm.widget);
             // if (vm.widget != null)
@@ -55,7 +53,8 @@
                         vm.error = "Adding failed!"
                     });
             else
-                WidgetService.updateWidget(vm.widgetId, newWidget)
+                WidgetService
+                    .updateWidget(vm.widgetId, newWidget)
                     .success(function () {
                         $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
                     })

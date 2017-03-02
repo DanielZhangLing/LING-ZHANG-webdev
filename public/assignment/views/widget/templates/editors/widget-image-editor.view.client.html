@@ -1,12 +1,14 @@
-<form action="/api/upload" method="post" enctype="multipart/form-data">
+<form action="/api/upload" method="post" enctype="multipart/form-data" onsubmit="submitIt()">
+    <script>function submitIt() {
+    }</script>
     <label for="Name">Name</label>
     <input ng-model="model.widget.name" type="text" class="form-control" id="Name" placeholder="Name">
     <label for="Text">Text</label>
     <input ng-model="model.widget.text" type="text" class="form-control" id="Text" placeholder="Text">
     <label for="Url">URL</label>
     <input ng-model="model.widget.url" type="url" class="form-control" id="Url" placeholder="URL">
-    <label for="Width">URL</label>
-    <select ng-model="model.widget.width" class="form-control" name="Width" id="Width">
+    <label for="Width">Width</label>
+    <select ng-model="model.widget.width" class="form-control" name="Width" id="Width" placeholder="50%">
         <option value="25%">25%</option>
         <option value="50%">50%</option>
         <option value="75%">75%</option>
@@ -14,19 +16,16 @@
     </select>
     <!--<label for="Upload">Upload</label>-->
     <!--<input ng-model="model.widget.src" type="file" class="form-control" id="Upload" placeholder="Upload">-->
-    <!--<button class="btn btn-block btn-primary"-->
-    <!--ng-click="model.uploadImage(model.widget)">Upload Image-->
-    <!--</button>-->
-
-    <input name="myFile" type="file" class="form-control"/>
+    <button ng-show="model.widgetId==null" class="btn btn-block btn-primary"
+            ng-click="model.createOrUpdateWidget(model.widget)">Upload Image
+    </button>
+    <label ng-show="model.widgetId!=null" for="Upload">Upload</label>
+    <input ng-show="model.widgetId!=null" name="myFile" type="file" class="form-control" id="Upload"/>
     <input name="userId" value="{{model.userId}}" style="display: none"/>
     <input name="websiteId" value="{{model.websiteId}}" style="display: none"/>
     <input name="pageId" value="{{model.pageId}}" style="display: none"/>
     <input name="widgetId" value="{{model.widget._id}}" style="display: none"/>
-    <button type="submit" class="btn btn-block btn-primary">Upload Image</button>
+    <div>
+        <button ng-show="model.widgetId!=null" type="submit" class="btn btn-block btn-primary">Upload Image</button>
+    </div>
 </form>
-<a class="btn btn-block btn-danger"
-   ng-show="model.widgetId!=null" ng-click="model.deleteWidget()">Delete</a>
-<a class="btn btn-block btn-danger"
-   ng-show="model.widgetId==null"
-   href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/new">Cancel</a>

@@ -25,8 +25,14 @@
 
 
 <div class="container">
-    <form ng-include="model.getEditorTemplateUrl(model.widgetType)">
-    </form>
+    <div ng-include="model.getEditorTemplateUrl(model.widgetType)">
+    </div>
+    <a class="btn btn-block btn-danger"
+       ng-show="model.widgetId!=null" ng-click="model.deleteWidget()">Delete</a>
+    <a class="btn btn-block btn-danger"
+       ng-show="model.widgetId==null"
+       href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/new">Cancel</a>
+
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
