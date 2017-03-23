@@ -62,12 +62,7 @@ module.exports = function (app, model) {
         userModel.findUserByUsername(userName)
             .then(
                 function (user) {
-                    if (user.length != 0) {
-                        res.json(user);
-                    }
-                    else {
-                        res.sendStatus(404);
-                    }
+                    res.json(user);
                 },
                 function (error) {
                     res.sendStatus(404);
