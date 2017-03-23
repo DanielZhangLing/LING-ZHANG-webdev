@@ -25,6 +25,10 @@
     <input name="websiteId" value="{{model.websiteId}}" style="display: none"/>
     <input name="pageId" value="{{model.pageId}}" style="display: none"/>
     <input name="widgetId" value="{{model.widget._id}}" style="display: none"/>
+    <div ng-show="model.widgetId!=null">
+        <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{model.widgetId}}/flickr"
+           class="btn btn-block btn-info">Search Flicker</a>
+    </div>
     <div>
         <button ng-show="model.widgetId!=null" type="submit" class="btn btn-block btn-primary">Upload Image</button>
     </div>

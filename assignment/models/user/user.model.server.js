@@ -18,16 +18,16 @@ module.exports = function () {
 
     return api;
 
-    function deleteWebsiteForUser(userId, websiteId){
+    function deleteWebsiteForUser(userId, websiteId) {
         var d = q.defer();
         UserModel.findById(userId)
-            .then(function(user){
+            .then(function (user) {
                 var index = user.websites.indexOf(websiteId);
                 user.websites.splice(index, 1);
-                user.save(function(err, user){
-                    if(err){
+                user.save(function (err, user) {
+                    if (err) {
                         d.reject();
-                    }else{
+                    } else {
                         d.resolve(user);
                     }
                 });
@@ -36,15 +36,15 @@ module.exports = function () {
         return d.promise;
     }
 
-    function addWebsiteForUser(userId, website){
+    function addWebsiteForUser(userId, website) {
         var d = q.defer();
         UserModel.findById(userId)
-            .then(function(user){
+            .then(function (user) {
                 user.websites.push(website._id);
-                user.save(function(err, user){
-                    if(err){
+                user.save(function (err, user) {
+                    if (err) {
                         d.reject();
-                    }else{
+                    } else {
                         d.resolve(user);
                     }
                 });
@@ -69,17 +69,14 @@ module.exports = function () {
 
     function findUserByUsername(userName) {
         var d = q.defer();
-        UserModel
-            .findOne({
-                    username: userName
-                },
-                function (err, user) {
-                    if (err) {
-                        d.abort(err)
-                    } else {
-                        d.resolve(user);
-                    }
-                });
+        UserModel.findOne({username: userName}, function (err, user) {
+            if (err) {
+                d.reject(err);
+            }
+            else {
+                d.resolve(user);
+            }
+        });
         return d.promise;
     }
 

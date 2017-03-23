@@ -28,8 +28,10 @@
                 .error(function (err) {
                     UserService.createUser(user)
                         .success(function (newUser) {
-                            console.log(newUser);
                             $location.url("/profile/" + newUser._id);
+                        })
+                        .error(function(){
+                            vm.error = "Unknown Error"
                         });
                 });
 

@@ -58,16 +58,19 @@ module.exports = function (app, model) {
 
     function findUserByUsername(req, res) {
         var userName = req.query.username;
+        console.log(userName);
         userModel.findUserByUsername(userName)
             .then(
                 function (user) {
-                    if (user.length != 0)
+                    if (user.length != 0) {
                         res.json(user);
-                    else
+                    }
+                    else {
                         res.sendStatus(404);
+                    }
                 },
                 function (error) {
-                    res.sendStatus(403);
+                    res.sendStatus(404);
                 }
             );
         // var user = users.find(function (u) {
@@ -103,7 +106,7 @@ module.exports = function (app, model) {
 
     function createUser(req, res) {
         var newUser = req.body;
-        console.log(newUser);
+
         userModel
             .createUser(newUser)
             .then(
