@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("WidgetListController", WidgetListController)
-    function WidgetListController($sce, $routeParams, WidgetService) {
+    function WidgetListController($sce, $routeParams, WidgetService, PageService) {
         var vm = this;
         vm.getYouTubeEmbedUrl = getYouTubeEmbedUrl;
         vm.getTrustedHtml = getTrustedHtml;
@@ -13,11 +13,34 @@
         vm.websiteId = $routeParams.wid;
         vm.pageId = $routeParams.pid;
         function init() {
-            var promise = WidgetService
-                .findWidgetByPageId(vm.pageId);
-            promise.success(function (widgets) {
-                vm.widgets = widgets;
-            });
+            PageService
+                .findPageById(vm.pageId)
+                // .then(function (page, error) {
+                //     if (error) {
+                //         vm.error = 'no page found!'
+                //     } else {
+                //         return page.widgets;
+                //     }
+                // })
+                .then(function (page) {
+                    console.log(page);
+                    var widgets = page.data.widgets;
+                    console.log(widgets);
+                    var widgetIndex = [];
+                    for (w in  widgets) {
+                        WidgetService
+                            .findWidgetById(widgets[w])
+                            .then(function (widget) {
+                                widgetIndex.push(widget.data);
+                            }, function (err) {
+                                vm.error = 'sorting error';
+                            });
+                    }
+                    vm.widgets = widgetIndex;
+                    console.log(vm.widgets);
+                });
+
+
         }
 
         init();
