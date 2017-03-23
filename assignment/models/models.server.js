@@ -1,5 +1,5 @@
 module.exports = function () {
-    var connectionString = 'mongodb://127.0.0.1:27017/assignment'
+    var connectionString = 'mongodb://127.0.0.1:27017/test'
     if (process.env.MLAB_USERNAME) {
         connectionString = process.env.MLAB_USERNAME + ":" +
             process.env.MLAB_PASSWORD + "@" +
