@@ -20,6 +20,8 @@ module.exports = function () {
 
     function reorderWidgetForPage(pageId, start, end) {
         var d = q.defer();
+        console.log(start);
+        console.log(end);
         PageModel.findById(pageId)
             .then(function (page) {
                 console.log(page.widgets);
@@ -28,7 +30,8 @@ module.exports = function () {
                 for (var w in widgets) {
                     if (w > start && w <= end)
                         widgets[w - 1] = widgets[w];
-                    else if (w < start && w >= end)
+                    else if ((widgets.length - w - 1) <= start
+                        && (widgets.length - w - 1) > end)
                         widgets[widgets.length - w - 1]
                             = widgets[widgets.length - w - 2];
                 }
