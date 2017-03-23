@@ -11,7 +11,7 @@ module.exports = function () {
         deleteWebsiteForUser: deleteWebsiteForUser
     };
 
-    var q = require('q');
+    var q = require("q");
     var mongoose = require('mongoose');
     var UserSchema = require('./user.schema.server')();
     var UserModel = mongoose.model('UserModel', UserSchema);
