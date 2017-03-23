@@ -25,11 +25,10 @@
                 .success(function (oldUser) {
                     vm.error = "The username is already taken";
                 })
-                .error(function () {
-                    console.log("what is this");
-                    console.log(user);
+                .error(function (err) {
                     UserService.createUser(user)
                         .success(function (newUser) {
+                            console.log(newUser);
                             $location.url("/profile/" + newUser._id);
                         });
                 });

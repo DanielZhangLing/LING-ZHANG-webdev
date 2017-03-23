@@ -26,8 +26,9 @@
 
 <div wbdv-sortable class="container">
 
-    <div ng-repeat="widget in model.widgets|orderBy: 'order'">
-        <div class="jga-toolbar">
+    <div ng-repeat="widget in model.widgets">
+        <!--<div ng-repeat="widget in model.widgets|orderBy: 'order'">-->
+        <div class="jga-toolbar z-index2">
             <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{widget._id}}">
                 <span class="glyphicon glyphicon-cog"></span>
             </a>
@@ -36,7 +37,7 @@
 
         <!--<ng-include src="model.getWidgetTemplateUrl(widget.widgetType)"></ng-include>-->
 
-        <div ng-switch="widget.widgetType">
+        <div ng-switch="widget.type">
             <div ng-switch-when="heading">
                 <ng-include src="'views/widget/templates/widget-heading.view.client.html'"></ng-include>
             </div>
@@ -46,7 +47,10 @@
             <div ng-switch-when="html">
                 <ng-include src="'views/widget/templates/widget-html.view.client.html'"></ng-include>
             </div>
-            <div ng-switch-when="youtube">
+            <div ng-switch-when="youtube" class="youtube-widget">
+                <ng-include src="'views/widget/templates/widget-youtube.view.client.html'"></ng-include>
+            </div>
+            <div ng-switch-when="text">
                 <ng-include src="'views/widget/templates/widget-youtube.view.client.html'"></ng-include>
             </div>
         </div>

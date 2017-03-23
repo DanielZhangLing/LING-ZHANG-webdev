@@ -20,7 +20,7 @@
                 .findWidgetById(vm.widgetId)
                 .success(function (widget) {
                     vm.widget = widget;
-                    vm.widgetType = vm.widget.widgetType;
+                    vm.widgetType = vm.widget.type;
 
                 })
                 .error(function () {
@@ -66,7 +66,7 @@
 
         function deleteWidget() {
             WidgetService
-                .deleteWidget(vm.widgetId)
+                .deleteWidget(vm.widgetId, vm.pageId)
                 .success(function () {
                     $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
                 })

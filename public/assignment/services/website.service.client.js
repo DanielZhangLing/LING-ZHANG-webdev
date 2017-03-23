@@ -53,8 +53,10 @@
             // }
             // return null;
         }
-        function deleteWebsite(websiteId){
-            return $http.delete("/api/website/"+websiteId);
+        function deleteWebsite(websiteId, userId){
+            console.log(websiteId);
+            console.log(userId);
+            return $http.delete("/api/website/"+websiteId+"/"+userId);
         }
         //     for (var w in websites){
         //         var website = websites[w];

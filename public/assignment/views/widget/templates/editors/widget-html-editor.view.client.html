@@ -1,4 +1,11 @@
 <label for="Name">Name</label>
 <input ng-model="model.widget.name" type="text" class="form-control" id="Name" placeholder="Name">
 <label for="Text">Text</label>
-<input ng-model="model.widget.text" type="text" class="form-control" id="Text" placeholder="Text">
+<!--<input ng-model="model.widget.text" type="text" class="form-control" id="Text" placeholder="Text">-->
+<div ng-model="model.widget.text"
+     text-angular
+     ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],
+        ['ul','ol'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],
+        ['indent','outdent'],['html']]"
+     id="Text" placeholder="Text">
+</div>

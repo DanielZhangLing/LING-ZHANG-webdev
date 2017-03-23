@@ -64,8 +64,8 @@
             // return null;
         }
 
-        function deleteWidget(widgetId) {
-            return $http.delete("/api/widget/" + widgetId);
+        function deleteWidget(widgetId, pageId) {
+            return $http.delete("/api/widget/" + widgetId + "/" + pageId);
             // for (var w in widgets){
             //     var widget = widgets[w];
             //     if(widget._id == widgetId){

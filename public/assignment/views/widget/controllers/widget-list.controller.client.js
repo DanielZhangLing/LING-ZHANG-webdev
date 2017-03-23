@@ -15,7 +15,6 @@
         function init() {
             var promise = WidgetService
                 .findWidgetByPageId(vm.pageId);
-            console.log(promise);
             promise.success(function (widgets) {
                 vm.widgets = widgets;
             });
