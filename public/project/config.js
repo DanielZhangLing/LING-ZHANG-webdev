@@ -31,12 +31,7 @@
                 // controller: "RegisterController",
                 // controllerAs: "model"
             })
-            .when("/profile/", {
-                templateUrl: 'views/user/templates/profile.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
-            })
-            .when("/profile/:uid", {
+            .when("/user/:uid", {
                 templateUrl: 'views/user/templates/profile.view.client.html',
                 // controller: "ProfileController",
                 // controllerAs: "model"
@@ -63,6 +58,31 @@
             })
             .when("/deal/", {
                 templateUrl: 'views/deal/templates/deal-list.view.client.html',
+                // controller: "ProfileController",
+                // controllerAs: "model"
+            })
+            .when("/deal/:did", {
+                templateUrl: 'views/deal/templates/deal-detail.view.client.html',
+                // controller: "ProfileController",
+                // controllerAs: "model"
+            })
+            .when("/user/:uid/deal/new", {
+                templateUrl: 'views/deal/templates/deal-add.view.client.html',
+                // controller: "ProfileController",
+                // controllerAs: "model"
+            })
+            .when("/user/:uid/deal/:did", {
+                templateUrl: 'views/deal/templates/deal-edit.view.client.html',
+                // controller: "ProfileController",
+                // controllerAs: "model"
+            })
+            .when("/spot/", {
+                templateUrl: 'views/spot/templates/spot-list.view.client.html',
+                // controller: "ProfileController",
+                // controllerAs: "model"
+            })
+            .when("/spot/:pid", {
+                templateUrl: 'views/spot/templates/spot-detail.view.client.html',
                 // controller: "ProfileController",
                 // controllerAs: "model"
             })
