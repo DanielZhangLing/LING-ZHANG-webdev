@@ -22,6 +22,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgldfe8VG-R1hYSSkU8ufnbjg4LdWdkrk&libraries=places"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <!-- Tether 1.1.1 via CDN, needed for Bootstrap Tooltips & Popovers -->
@@ -32,9 +34,16 @@
     <script src="app.js"></script>
     <script src="config.js"></script>
 
-    <script src="views/user/controllers/profile.controller.client.js"></script>
-
     <script src="assets/directives/showTab.js"></script>
+
+    <script src="services/user.service.client.js"></script>
+    <script src="services/spot.service.client.js"></script>
+
+    <script src="views/user/controllers/login.controller.client.js"></script>
+    <script src="views/user/controllers/register.controller.client.js"></script>
+    <script src="views/user/controllers/profile.controller.client.js"></script>
+    <script src="views/spot/controllers/spot-list.controller.client.html.js"></script>
+    <script src="views/spot/controllers/spot-detail.controller.client.html.js"></script>
 
     <title>ZipStory</title>
 </head>
@@ -45,9 +54,9 @@
             <div class="header-block-flex flex-first mr-auto">
                 <nav class="nav nav-sm header-block-flex">
                     <a class="nav-link hidden-md-up" href="login.htm"><i class="fa fa-user"></i></a>
-                    <a class="nav-link text-xs text-uppercase hidden-sm-down" href="">Sign
+                    <a class="nav-link text-xs text-uppercase hidden-sm-down" href="#/register">Sign
                         Up</a>
-                    <a class="nav-link text-xs text-uppercase hidden-sm-down" href="">Login</a>
+                    <a class="nav-link text-xs text-uppercase hidden-sm-down" href="#/login">Login</a>
                 </nav>
             </div>
         </div>
@@ -67,7 +76,7 @@
             <div class="header-inner container">
                 <!--branding/logo -->
                 <div class="header-brand flex-first">
-                    <a class="header-brand-text" href="index.htm" title="Home">
+                    <a class="header-brand-text" href="#/login" title="Home">
                         <h1>
                             <span>Zip</span>Story<span>.</span>
                         </h1>
@@ -103,6 +112,9 @@
                             <!-- Pages -->
                             <li class="nav-item">
                                 <a href="#" class="nav-link" id="profile-drop">Profiles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#/spot" class="nav-link" id="spots-drop">Spots</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link" id="stories-drop">Stories</a>

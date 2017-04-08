@@ -8,7 +8,51 @@
     angular
         .module("ZipStory")
         .controller("ProfileController", ProfileController);
-    function ProfileController($routeParams, UserService) {
+    function ProfileController($location, userService, currentUser, $timeout) {
+        var vm = this;
+        vm.user = currentUser;
+        vm.editable = false;
+        var userId = vm.user._id;
+        vm.updateUser = updateUser;
+        vm.editUser = editUser;
+        vm.cancelUpdate = cancelUpdate;
+        vm.logout = logout;
+        function init() {
+        }
+
+        init();
+
+        function editUser(){
+            vm.editable = true;
+        }
+
+        function logout() {
+            userService
+                .logout()
+                .then(function (reponse) {
+                    $location.url('/login');
+                });
+        }
+        function updateUser(newUser) {
+            userService
+                .updateUser(userId, newUser)
+                .then(function (user) {
+                    if (user == null) {
+                        vm.error = "unable to update user";
+                        $timeout(function() { vm.error = false; }, 3000);
+                    } else {
+                        vm.message = "user successfully updated";
+                        vm.editable = false;
+                        $timeout(function() { vm.message = false; }, 3000);
+                    }
+                });
+
+        }
+
+        function cancelUpdate(){
+            vm.editable = false;
+        }
+
         // var vm = this;
         // console.log("aa");
         // jQuery('.nav-link').on('click', function(){

@@ -13,28 +13,31 @@
         $routeProvider
             .when("/login", {
                 templateUrl: 'views/user/templates/login.view.client.html',
-                // controller: "LoginController",
-                // controllerAs: "model"
+                controller: "LoginController",
+                controllerAs: "model"
             })
             .when("/", {
                 templateUrl: 'views/user/templates/login.view.client.html',
-                // controller: "LoginController",
-                // controllerAs: "model"
+                controller: "LoginController",
+                controllerAs: "model"
             })
-            // .when("default", {
-            //     templateUrl: 'views/user/templates/login.view.client.html',
-            //     // controller: "LoginController",
-            //     // controllerAs: "model"
-            // })
+            .when("default", {
+                templateUrl: 'views/user/templates/login.view.client.html',
+                controller: "LoginController",
+                controllerAs: "model"
+            })
             .when("/register", {
                 templateUrl: 'views/user/templates/register.view.client.html',
-                // controller: "RegisterController",
-                // controllerAs: "model"
+                controller: "RegisterController",
+                controllerAs: "model"
             })
             .when("/user/:uid", {
                 templateUrl: 'views/user/templates/profile.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
+                controller: "ProfileController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: checkLogin
+                }
             })
             .when("/story/", {
                 templateUrl: 'views/story/templates/story-list.view.client.html',
@@ -42,6 +45,11 @@
                 // controllerAs: "model"
             })
             .when("/story/:sid", {
+                templateUrl: 'views/story/templates/story-detail.view.client.html',
+                // controller: "ProfileController",
+                // controllerAs: "model"
+            })
+            .when("/spot/:pid/story", {
                 templateUrl: 'views/story/templates/story-detail.view.client.html',
                 // controller: "ProfileController",
                 // controllerAs: "model"
@@ -78,13 +86,16 @@
             })
             .when("/spot/", {
                 templateUrl: 'views/spot/templates/spot-list.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
+                controller: "SpotListController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: spotCheckLogin
+                }
             })
             .when("/spot/:pid", {
                 templateUrl: 'views/spot/templates/spot-detail.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
+                controller: "SpotDetailController",
+                controllerAs: "model"
             })
             // .when("/user/:uid/website", {
             //     templateUrl: 'views/website/templates/website-list.view.client.html',
@@ -143,5 +154,35 @@
             //     controller: "WidgetFlickrController",
             //     controllerAs: "model"
             // })
+        function checkLogin($q, userService, $location) {
+            var deferred = $q.defer();
+            userService
+                .loggedIn()
+                .then(function (user) {
+                    console.log(user);
+                    if(user != '0') {
+                        deferred.resolve(user);
+                    } else {
+                        $location.url('/login');
+                        deferred.reject();
+                    }
+                });
+            return deferred.promise;
+        }
+
+        function spotCheckLogin($q, userService, $location) {
+            var deferred = $q.defer();
+            userService
+                .loggedIn()
+                .then(function (user) {
+                    console.log(user);
+                    if(user != '0') {
+                        deferred.resolve(user);
+                    } else {
+                        deferred.resolve(null);;
+                    }
+                });
+            return deferred.promise;
+        }
     }
 })();

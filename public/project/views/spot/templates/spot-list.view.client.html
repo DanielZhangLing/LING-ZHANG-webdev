@@ -4,7 +4,7 @@
             Spots
         </h2>
         <!-- Page header breadcrumb -->
-        <nav class="breadcrumb float-md-right"> <a class="breadcrumb-item" href="index.htm">Home</a> <span class="breadcrumb-item active">Spots List</span> </nav>
+        <nav class="breadcrumb float-md-right"> <a class="breadcrumb-item" href="#/login">Home</a> <span class="breadcrumb-item active">Spots List</span> </nav>
     </div>
 </div>
 <div id="content" class="py-3 py-lg-6">
@@ -17,73 +17,38 @@
                     <div class="col-lg-6 mb-3 mb-lg-0">
                         <form class="form-inline justify-content-lg-start text-sm">
                             <label class="control-label mr-2">Search:</label>
-                            <input type="text" class="form-control form-control-sm mr-lg-2" placeholder="ie. Calvin Klein">
-                            <button type="submit" class="btn btn-primary"> <i class="fa fa-search"></i> Search </button>
+                            <input ng-model="keyword" type="text" class="form-control form-control-sm mr-lg-2" placeholder="ie. Boston">
+                            <button ng-click="model.search(keyword)" type="submit" class="btn btn-primary"> <i class="fa fa-search"></i> Search </button>
                         </form>
                     </div>
                 </div>
                 <hr class="my-4">
                 <div class="row">
-                    <div class="team-member">
+                    <div ng-show="model.error" class="alert alert-danger" role="alert"> <strong>Error:</strong> {{model.error}} </div>
+                    <div ng-repeat="spot in model.spots"  class="team-member">
                         <div class="row">
                             <div class="col-sm-2">
-                                <a href="team-member.htm" title="View Jimi's profile">
-                                    <img src="http://localhost:63342/appStrap/theme/assets/img/team/jimi@2x.jpg" class="img-thumbnail" alt="Jimi" width="90" height="90">
+                                <a href="#spot/{{spot.geoNameId}}" title="View {{spot.title}}'s profile">
+                                    <img src="{{spot.thumbnailImg}}" class="img-thumbnail flex-fullwidth">
                                 </a>
                             </div>
                             <div class="col-sm-10">
                                 <h4 class="name">
-                                    <a href="team-member.htm" title="View Jimi's profile">Boston</a>
+                                    <a href="#spot/{{spot.geoNameId}}" title="View {{spot.title}}'s profile">{{spot.title}}</a>
                                 </h4>
-                                <p class="role">City</p>
-                                <p>Commoveo lobortis mauris praemitto. Distineo hendrerit iaceo inhibeo iriure paratus premo sudo usitas velit. Augue gravis quia. Jumentum magna suscipere utinam.</p>
+                                <p class="feature margin-bottom-auto">{{spot.feature}}</p>
+                                <p class="rank margin-bottom-auto">{{spot.rank}} <span class="text-primary">th</span></p>
+                                <p>{{spot.summary}}</p>
                                 <div>
-                                    <a href="#" class="btn btn-sm btn-info btn-rounded" role="button" aria-pressed="true"><i class=" mr-2 fa fa-book"></i>Story</a>
-                                    <a href="#" class="btn btn-sm btn-info btn-rounded" role="button" aria-pressed="true"><i class=" mr-2 fa fa-shopping-bag"></i>Deal</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="team-member">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <a href="team-member.htm" title="View Jimi's profile">
-                                    <img src="http://localhost:63342/appStrap/theme/assets/img/team/jimi@2x.jpg" class="img-thumbnail" alt="Jimi" width="90" height="90">
-                                </a>
-                            </div>
-                            <div class="col-sm-10">
-                                <h4 class="name">
-                                    <a href="team-member.htm" title="View Jimi's profile">Jimi</a>
-                                </h4>
-                                <p class="role">Founder &amp; developer</p>
-                                <p>Commoveo lobortis mauris praemitto. Distineo hendrerit iaceo inhibeo iriure paratus premo sudo usitas velit. Augue gravis quia. Jumentum magna suscipere utinam.</p>
-                                <div class="social-media-branding social-media-branding-sm">
-                                    <!--@todo: replace with real social share links -->
-                                    <a href="#" class="social-link branding-twitter"><i class="fa fa-twitter-square"></i></a>
-                                    <a href="#" class="social-link branding-facebook"><i class="fa fa-facebook-square"></i></a>
-                                    <a href="#" class="social-link branding-linkedin"><i class="fa fa-linkedin-square"></i></a>
-                                    <a href="#" class="social-link branding-google-plus"><i class="fa fa-google-plus-square"></i></a>
+                                    <a href="#/spot/{{spot.geoNameId}}/story" class="btn btn-sm btn-info btn-rounded" role="button" aria-pressed="true"><i class=" mr-2 fa fa-book"></i>Story</a>
+                                    <a href="#/spot/{{spot.geoNameId}}/deal" class="btn btn-sm btn-info btn-rounded" role="button" aria-pressed="true"><i class=" mr-2 fa fa-shopping-bag"></i>Deal</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination pagination-lg justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">«</span> <span class="sr-only">Previous</span> </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next"> <span aria-hidden="true">»</span> <span class="sr-only">Next</span> </a>
-                        </li>
-                    </ul>
-                </nav>
+                <div class="pagination">
+                    <button ng-click="model.showMore()" type="button" class="btn btn-secondary btn-lg btn-block">Load More</button>
             </div>
         </div>
     </div>

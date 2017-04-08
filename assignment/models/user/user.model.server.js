@@ -69,6 +69,7 @@ module.exports = function () {
 
     function findUserByUsername(userName) {
         var d = q.defer();
+        console.log(UserModel);
         UserModel.findOne({username: userName}, function (err, user) {
             if (err||user==null) {
                 d.reject(err);
