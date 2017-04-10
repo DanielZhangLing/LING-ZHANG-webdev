@@ -20,21 +20,21 @@
                         <!-- Product details -->
                         <div class="row">
                             <div class="col-sm-2">
-                                <img src="http://localhost:63342/appStrap/theme/assets/img/team/jimi@2x.jpg"
-                                     class="img-thumbnail" alt="Jimi" height="90">
+                                <img src="{{model.spot.thumbnailImg}}"
+                                     class="img-thumbnail" height="90">
                             </div>
                             <div class="col-sm-7">
                                 <p class="text-muted text-uppercase text-xs mb-0"><span class="text-primary">Spot</span>
                                     /
-                                    Feature</p>
+                                    {{model.spot.feature}}</p>
                                 <h2 class="card-title mb-2">
-                                    Spot Title
+                                    {{model.spot.title}}
                                 </h2>
                                 <h4 class="font-weight-bold text-primary">
                                     <span class="op-5">Rank</span>
-                                    : 55
+                                    : {{model.spot.rank}}
                                 </h4>
-                                <p class="mb-t mb-0 text-sm">wiki: <a>asdasds</a></p>
+                                <p class="mb-t mb-0 text-sm">wiki: <a href="http://{{model.spot.wikipediaUrl}}">{{model.spot.wikipediaUrl}}</a></p>
                             </div>
                             <div class="pos-md-absolute pos-t pos-r mr-4 mt-3 text-md-right">
                                 <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i> <i
@@ -45,17 +45,7 @@
                         </div>
 
                         <hr class="my-3">
-                        <p class="text-muted text-sm">Antehabeo ille illum iusto macto meus nutus pneum tincidunt. Abbas
-                            decet duis jumentum nobis pecus. Appellatio haero meus verto. Euismod feugiat ut.Antehabeo
-                            ille illum iusto macto meus nutus pneum tincidunt. Abbas decet duis jumentum nobis pecus.
-                            AppellatioAntehabeo ille illum iusto macto meus nutus pneum tincidunt. Abbas decet duis
-                            jumentum nobis pecus. AppellatioAntehabeo ille illum iusto macto meus nutus pneum tincidunt.
-                            Abbas decet duis jumentum nobis pecus. AppellatioAntehabeo ille illum iusto macto meus nutus
-                            pneum tincidunt. Abbas decet duis jumentum nobis pecus. AppellatioAntehabeo ille illum iusto
-                            macto meus nutus pneum tincidunt. Abbas decet duis jumentum nobis pecus. AppellatioAntehabeo
-                            ille illum iusto macto meus nutus pneum tincidunt. Abbas decet duis jumentum nobis pecus.
-                            AppellatioAntehabeo ille illum iusto macto meus nutus pneum tincidunt. Abbas decet duis
-                            jumentum nobis pecus. Appellatio</p>
+                        <p class="text-muted text-sm" ng-bind-html="model.getTrustedHtml(model.spot.content)">{{}}</p>
                         <!--<p class="text-muted text-sm">Acsi facilisis fere quibus quidne. Distineo elit et illum in incassum lenis magna typicus vel. Damnum ideo iriure letalis minim nulla.</p>-->
                         <hr class="my-3 mb-5">
                         <a href="shop-cart.htm" class="btn btn-primary"><i class="fa fa-heart mr-2"></i> Add to Favorite</a>

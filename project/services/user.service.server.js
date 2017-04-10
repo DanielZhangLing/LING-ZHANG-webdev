@@ -31,13 +31,11 @@ module.exports = function (app, model) {
     userModel = model.userModel;
 
     function localStrategy(username, password, done) {
-        console.log("fkme");
         userModel
             .findUserByCredentials({username: username, password: password})
             .then(
                 function (user) {
                     if (!user) {
-                        console.log("haha");
                         return done(null, false);
                     }
                     return done(null, user);
@@ -65,7 +63,6 @@ module.exports = function (app, model) {
                     if (user) {
                         res.json(null);
                     } else {
-                        console.log("aaa");
                         return userModel.createUser(newUser);
                     }
                 },
@@ -75,14 +72,12 @@ module.exports = function (app, model) {
             )
             .then(
                 function (user) {
-                    console.log("now im here")
                     if (user) {
                         req.login(user, function (err) {
                             user.password = '';
                             if (err) {
                                 res.status(500).send(err);
                             } else {
-                                console.log("now im here2")
                                 res.json(user);
                             }
                         });

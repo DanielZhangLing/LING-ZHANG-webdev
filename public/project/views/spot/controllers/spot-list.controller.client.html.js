@@ -11,17 +11,46 @@
         vm.rows = 10;
         vm.search = search;
         vm.showMore = showMore;
+        vm.createSpot = createSpot;
+        // vm.findWikiByGeoId = findWikiByGeoId;
+
         function init() {
             if (vm.user) {
-                console.log("1");
                 vm.search(vm.user.state);
             } else {
-                console.log("2");
                 vm.search('Boston');
             }
         }
 
         init();
+
+        function createSpot(spot) {
+            spotService
+                .findWikiByGeoId(spot.geoNameId)
+                .then(function (wiki) {
+                    if (wiki) {
+                        spot["content"] = wiki.extract;
+                        return spot;
+                    }
+                    else {
+                        console.log("can't find wiki!");
+                        return null;
+                    }
+                })
+                .then(function (spot) {
+                    spotService.createSpot(spot)
+                        .then(function (spot) {
+                            if (spot) {
+                                $location.url("/spot/" + spot.geoNameId);
+                            }
+                            else {
+                                vm.error = "Cannot find spot you want!"
+                            }
+                        })
+                })
+
+
+        }
 
         function search(keyword) {
             vm.keyword = keyword;
@@ -39,7 +68,6 @@
 
         function showMore() {
             vm.rows = vm.rows + 10;
-            console.log(vm.rows)
             search(vm.keyword);
         }
 

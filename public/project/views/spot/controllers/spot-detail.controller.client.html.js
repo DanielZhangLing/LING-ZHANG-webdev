@@ -5,14 +5,16 @@
     angular
         .module("ZipStory")
         .controller("SpotDetailController", SpotDetailController);
-    function SpotDetailController(spotService, $routeParams, $location) {
+    function SpotDetailController($sce, spotService, $routeParams, $location) {
         var vm = this;
         vm.spotId = $routeParams["pid"];
+        vm.getTrustedHtml = getTrustedHtml;
         function init() {
             spotService
-                .findSpotById(vm.spotId)
+                .findSpotByGeoId(vm.spotId)
                 .then(function (spot) {
                     if(spot) {
+                        console.log(spot);
                         vm.spot = spot;
                     }
                     else{
@@ -22,5 +24,9 @@
         }
 
         init();
+
+        function getTrustedHtml(html) {
+            return $sce.trustAsHtml(html);
+        }
     }
 })();
