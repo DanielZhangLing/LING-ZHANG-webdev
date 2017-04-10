@@ -59,10 +59,21 @@
                 // controller: "ProfileController",
                 // controllerAs: "model"
             })
+            .when("/spot/:pid/story/new", {
+                templateUrl: 'views/story/templates/story-add.view.client.html',
+                controller: "StoryAddController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: checkLogin
+                }
+            })
             .when("/user/:uid/story/:sid", {
                 templateUrl: 'views/story/templates/story-edit.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
+                // controller: "StoryAddController",
+                // controllerAs: "model",
+                // resolve: {
+                //     currentUser: checkLogin
+                // }
             })
             .when("/deal/", {
                 templateUrl: 'views/deal/templates/deal-list.view.client.html',
@@ -78,6 +89,14 @@
                 templateUrl: 'views/deal/templates/deal-add.view.client.html',
                 // controller: "ProfileController",
                 // controllerAs: "model"
+            })
+            .when("/spot/:pid/deal/new", {
+                templateUrl: 'views/deal/templates/deal-add.view.client.html',
+                controller: "DealAddController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: checkLogin
+                }
             })
             .when("/user/:uid/deal/:did", {
                 templateUrl: 'views/deal/templates/deal-edit.view.client.html',
@@ -159,7 +178,6 @@
             userService
                 .loggedIn()
                 .then(function (user) {
-                    console.log(user);
                     if(user != '0') {
                         deferred.resolve(user);
                     } else {
@@ -175,7 +193,6 @@
             userService
                 .loggedIn()
                 .then(function (user) {
-                    console.log(user);
                     if(user != '0') {
                         deferred.resolve(user);
                     } else {

@@ -11,6 +11,8 @@ module.exports = function () {
         findAllUsers: findAllUsers,
         deleteUser: deleteUser,
         updateUser: updateUser,
+        addStoryForUser: addStoryForUser,
+        addDealForUser: addDealForUser,
     };
 
     var q = require("q");
@@ -19,6 +21,40 @@ module.exports = function () {
     var UserModel = mongoose.model('UserModel', userSchema);
 
     return api;
+
+    function addStoryForUser(userId, story){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                user.myStory.push(story._id);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
+    function addDealForUser(userId, deal){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                user.myDeal.push(deal._id);
+                user.save(function(err, deal){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(deal);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
 
     function createUser(user) {
         var d = q.defer();

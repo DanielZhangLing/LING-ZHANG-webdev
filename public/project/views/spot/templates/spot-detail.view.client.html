@@ -34,7 +34,8 @@
                                     <span class="op-5">Rank</span>
                                     : {{model.spot.rank}}
                                 </h4>
-                                <p class="mb-t mb-0 text-sm">wiki: <a href="http://{{model.spot.wikipediaUrl}}">{{model.spot.wikipediaUrl}}</a></p>
+                                <p class="mb-t mb-0 text-sm">wiki: <a href="http://{{model.spot.wikipediaUrl}}">{{model.spot.wikipediaUrl}}</a>
+                                </p>
                             </div>
                             <div class="pos-md-absolute pos-t pos-r mr-4 mt-3 text-md-right">
                                 <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i> <i
@@ -48,8 +49,15 @@
                         <p class="text-muted text-sm" ng-bind-html="model.getTrustedHtml(model.spot.content)">{{}}</p>
                         <!--<p class="text-muted text-sm">Acsi facilisis fere quibus quidne. Distineo elit et illum in incassum lenis magna typicus vel. Damnum ideo iriure letalis minim nulla.</p>-->
                         <hr class="my-3 mb-5">
-                        <a href="shop-cart.htm" class="btn btn-primary"><i class="fa fa-heart mr-2"></i> Add to Favorite</a>
-                        <p class="text-muted text-xs d-inline hidden-md-down">12769 people like it</p>
+                        <div class="btn-group mr-2" role="group" aria-label="Second group">
+                            <a href="#/spot/{{model.spotId}}/story/new">
+                            <button  type="button" class="btn btn-primary"><i class="fa fa-book"></i> Post Story</button>
+                            </a>
+                            <a href="#/spot/{{model.spotId}}/deal/new">
+                            <button href="#/spot/{{model.spotId}}/deal/new" type="button" class="btn btn-primary"><i class="fa fa-child"></i> Post Deal
+                            </button></a>
+                            <button type="button" class="btn btn-primary"><i class="fa fa-heart"></i> Like Spot</button>
+                        </div>
                     </div>
                 </div>
             </div>

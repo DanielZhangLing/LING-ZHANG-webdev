@@ -69,7 +69,6 @@ module.exports = function () {
             .find({_page: pageId})
             .then(function (widgets) {
                 widget.index = widgets.length;
-                console.log(widget);
                 WidgetModel.create(widget,
                     function (err, widget) {
                         if (err) {

@@ -20,16 +20,19 @@
                     <!-- Content -->
                     <div class="card-block p-4 pos-relative">
                         <!-- Product details -->
-                        <input type="text" class="noBorder form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Title">
+                        <input ng-model="deal.title" type="text" class="noBorder form-control" id="dealTitle" aria-describedby="dealTitle" placeholder="Title">
                         <hr class="my-3">
-                        <input type="text" class="noBorder form-control" id="spotInput" aria-describedby="emailHelp" placeholder="Spot">
+                        <input ng-model="deal.spot" type="text" class="noBorder form-control" id="dealSpot" aria-describedby="dealSpot" placeholder="{{model.spot.title}}" disabled>
                         <hr class="my-3">
-                        <input type="number" class="noBorder form-control" id="priceInput" aria-describedby="emailHelp" placeholder="Price">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <input ng-model="deal.price" type="number" class="noBorder form-control" id="dealPrice" aria-describedby="dealPrice" placeholder="Price">
+                            <div class="noBorder input-group-addon">$</div>
+                        </div>
                         <hr class="my-3">
-                        <textarea class="form-control noBorder" id="exampleTextarea" rows="10" placeholder="Passage..."></textarea>
+                        <textarea ng-model="deal.description" class="form-control noBorder" id="dealDescription" rows="10" placeholder="Passage..."></textarea>
                         <!--<p class="text-muted text-sm">Acsi facilisis fere quibus quidne. Distineo elit et illum in incassum lenis magna typicus vel. Damnum ideo iriure letalis minim nulla.</p>-->
                         <hr class="my-3 mb-5">
-                        <a href="shop-cart.htm" class="btn btn-primary"><i class="fa fa-rss"></i> Publish</a>
+                        <button ng-click="model.createDeal(deal)" class="btn btn-primary"><i class="fa fa-rss"></i> Publish</button>
                     </div>
                 </div>
             </div>

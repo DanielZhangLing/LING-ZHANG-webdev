@@ -20,15 +20,26 @@
                     <!-- Content -->
                     <div class="card-block p-4 pos-relative">
                         <!-- Product details -->
-                        <input type="text" class="noBorder form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Title">
+                        <input type="text" ng-model="story.title" class="noBorder form-control" id="storyTitle"
+                               aria-describedby="storyTitle" placeholder="Title">
                         <hr class="my-3">
-                        <input type="text" class="noBorder form-control" id="aa" aria-describedby="emailHelp" placeholder="Spot">
-
+                        <input type="text" ng-model="story.spot" class="noBorder form-control" id="storySpot"
+                               aria-describedby="storySpot" placeholder="{{model.spot.title}}" disabled>
                         <hr class="my-3">
-                        <textarea class="form-control noBorder" id="exampleTextarea" rows="10" placeholder="Passage..."></textarea>
+                        <div ng-model="story.description" placeholder="Passage..." class="form-control noBorder"
+                             text-angular
+                             ta-toolbar="[
+      ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
+      ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
+      ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+      ['html', 'insertImage','insertLink', 'insertVideo']
+  ]">
+                        </div>
                         <!--<p class="text-muted text-sm">Acsi facilisis fere quibus quidne. Distineo elit et illum in incassum lenis magna typicus vel. Damnum ideo iriure letalis minim nulla.</p>-->
                         <hr class="my-3 mb-5">
-                        <a href="shop-cart.htm" class="btn btn-primary"><i class="fa fa-rss"></i> Publish</a>
+                        <button ng-click="model.createStory(story)" class="btn btn-primary"><i class="fa fa-rss"></i>
+                            Publish
+                        </button>
                     </div>
                 </div>
             </div>

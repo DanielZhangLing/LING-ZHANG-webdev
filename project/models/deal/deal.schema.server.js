@@ -8,7 +8,7 @@ module.exports = function () {
         title: String,
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'},
         description: String,
-        location: String,
+        spot: String,
         price: Number,
         rate: Number,
         tags: [{type: String}], // TODO: add tag model

@@ -1,47 +1,57 @@
 /**
+ * Created by LingZhang on 4/10/17.
+ */
+/**
  * Created by LingZhang on 4/7/17.
  */
 module.exports = function (app, model) {
 
     // app.get("/api/user", findUser);
     // app.get("/api/spot/:spotId", findSpotById);
-    app.post("/api/spot", createSpot);
-    app.get("/api/spot/:pid", findSpotByGeoId)
-    // app.post("/api/user", createUser);
+    // app.post("/api/spot", createSpot);
+    // app.get("/api/spot/:pid", findSpotByGeoId)
+    app.post("/api/deal", createDeal);
     // app.put("/api/user/:userId", updateUser);
     // app.delete("/api/user/:userId", deleteUser);
 
-    spotModel = model.spotModel;
+    dealModel = model.dealModel;
+    userModel = model.userModel;
 
-    function findSpotByGeoId(req,res){
-        spotModel
-            .findSpotByGeoId(req.params.pid)
-            .then(function (spot) {
-                if (!spot) {
-                    res.send(500);
-                } else {
-                    res.json(spot);
-                }
-            });
-    }
+    // function findSpotByGeoId(req,res){
+    //     console.log("asd");
+    //     spotModel
+    //         .findSpotByGeoId(req.params.pid)
+    //         .then(function (spot) {
+    //             if (!spot) {
+    //                 console.log("namgdado");
+    //                 res.send(500);
+    //             } else {
+    //                 console.log(spot);
+    //                 res.json(spot);
+    //             }
+    //         });
+    // }
 
-    function createSpot(req, res) {
-        newSpot = req.body;
-        spotModel
-            .findSpotByGeoId(newSpot.geoNameId)
-            .then(
-                function (spot) {
-                    if (spot) {
-                        res.json(spot);
-                    } else {
-                        return spotModel.createSpot(newSpot);
-                    }
-                },
-                function (err) {
-                    res.status(500).send(err);
-                }
-            )
-    }
+    // function createSpot(req, res) {
+    //     newSpot = req.body;
+    //     console.log(newSpot.geoNameId);
+    //     spotModel
+    //         .findSpotByGeoId(newSpot.geoNameId)
+    //         .then(
+    //             function (spot) {
+    //                 if (spot) {
+    //                     console.log("ha")
+    //                     res.json(spot);
+    //                 } else {
+    //                     console.log("hei")
+    //                     return spotModel.createSpot(newSpot);
+    //                 }
+    //             },
+    //             function (err) {
+    //                 res.status(500).send(err);
+    //             }
+    //         )
+    // }
 
     // function login(req, res) {
     //     console.log("aaa");
@@ -86,17 +96,26 @@ module.exports = function (app, model) {
     //         });
     // }
     //
-    // function createUser(req, res) {
-    //     userModel
-    //         .createUser(req.body)
-    //         .then(function (user) {
-    //             if (err) {
-    //                 res.send(500);
-    //             } else {
-    //                 res.json(user);
-    //             }
-    //         });
-    // }
+    function createDeal(req, res) {
+        var result;
+        var deal = req.body;
+        dealModel
+            .createDeal(deal)
+            .then(
+                function (deal) {
+                    result = deal;
+                    return model
+                        .userModel
+                        .addDealForUser(deal.author, deal);
+                }
+            )
+            .then(
+                function (deal) {
+                    res.json(result);
+                }, function (error) {
+                    res.sendStatus(500);
+                });
+    }
     //
     // function findAllUsers(req, res) {
     //     userModel

@@ -3,5 +3,5 @@
  */
 (function () {
     angular
-        .module("ZipStory", ["ngRoute","navTab"]);
+        .module("ZipStory", ["ngRoute","navTab", "textAngular"]);
 })();

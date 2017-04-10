@@ -12,8 +12,8 @@ module.exports = function () {
     var model = {
         userModel: require("./user/user.model.server.js")(),
         spotModel: require("./spot/spot.model.server.js")(),
-        // pageModel: require("./page/page.model.server.js")(),
-        // widgetModel: require("./widget/widget.model.server.js")()
+        storyModel: require("./story/story.model.server.js")(),
+        dealModel: require("./deal/deal.model.server.js")()
     };
     mongoose.Promise = global.Promise;
 

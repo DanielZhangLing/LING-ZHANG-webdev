@@ -100,7 +100,6 @@ module.exports = function () {
 
     function createUser(user) {
         var d = q.defer();
-        console.log(user);
         UserModel
             .create(user,
                 function (err, user) {

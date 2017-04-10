@@ -5,10 +5,11 @@ module.exports = function () {
     var mongoose = require('mongoose');
 
     var StorySchema = mongoose.Schema({
+        geoNameId: String,
         title: String,
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'},
         description: String,
-        location: String,
+        spot: String,
         rate: Number,
         tags: [{type: String}], // TODO: add tag model
         likeUser: [{type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'}],
