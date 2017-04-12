@@ -11,6 +11,7 @@
             "findUserById": findUserById,
             // "findUserByUsername": findUserByUsername,
             // "findUserByCredentials": findUserByCredentials,
+
             "register": register,
             "loggedIn": loggedIn,
             "login": login,
@@ -21,9 +22,12 @@
         return api;
 
         function findUserById(userId) {
-            return $http.get('/api/user', userId)
+            return $http.get('/api/user/'+userId)
                 .then(function (response) {
-                    return response.data;
+                    if(response)
+                        return response.data;
+                    else
+                        return null;
                 });
         }
 

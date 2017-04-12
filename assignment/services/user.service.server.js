@@ -1,11 +1,28 @@
 module.exports = function (app, model) {
+
+
     app.get("/api/user", findUser);
     app.get("/api/user/:userId", findUserByUserId);
     app.put("/api/user/:userId", updateUser);
     app.post("/api/user", createUser);
     app.delete("/api/user/:userId", deleteUser);
-
     userModel = model.userModel;
+    storyModel = model.storyModel;
+
+    function findStoriesByUser(req, res) {
+        storyModel.findStoriesByUser(req.params.userId)
+            .then(
+                function (stories) {
+                    console.log("1");
+                    res.json(stories);
+                },
+                function (error) {
+                    console.log("2");
+                    res.sendStatus(404);
+                }
+            );
+    }
+
     function updateUser(req, res) {
         var userId = req.params.userId;
         var newUser = req.body;

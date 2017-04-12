@@ -13,6 +13,9 @@ module.exports = function () {
         updateUser: updateUser,
         addStoryForUser: addStoryForUser,
         addDealForUser: addDealForUser,
+        addLikeStoryForUser: addLikeStoryForUser,
+        deleteLikeStoryForUser: deleteLikeStoryForUser,
+        deleteStoryForUser: deleteStoryForUser,
     };
 
     var q = require("q");
@@ -21,6 +24,58 @@ module.exports = function () {
     var UserModel = mongoose.model('UserModel', userSchema);
 
     return api;
+
+    function deleteStoryForUser(storyId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                var index = user.myStory.indexOf(storyId);
+                user.myStory.splice(index, 1);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
+    function deleteLikeStoryForUser(storyId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                user.likeStory.pull(storyId);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
+    function addLikeStoryForUser(storyId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                user.likeStory.push(storyId);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
 
     function addStoryForUser(userId, story){
         var d = q.defer();
@@ -85,10 +140,12 @@ module.exports = function () {
 
     function findUserById(userId) {
         var d = q.defer();
+        console.log("b");
         UserModel.findById(userId,
             function (err, user) {
                 if (err) {
-                    d.abort(err)
+                    console.log("c");
+                    d.reject(err)
                 } else {
                     d.resolve(user);
                 }

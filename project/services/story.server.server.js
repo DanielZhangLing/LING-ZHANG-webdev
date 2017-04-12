@@ -6,31 +6,127 @@
  */
 module.exports = function (app, model) {
 
-    // app.get("/api/user", findUser);
-    // app.get("/api/spot/:spotId", findSpotById);
+    app.get("/api/stories", findAllStories);
+    app.get("/api/story/:sid", findStoryById);
     // app.post("/api/spot", createSpot);
     // app.get("/api/spot/:pid", findSpotByGeoId)
+    app.get("/api/stories/:spot", searchStoriesBySpot);
     app.post("/api/story", createStory);
-    // app.put("/api/user/:userId", updateUser);
-    // app.delete("/api/user/:userId", deleteUser);
+    app.put("/api/story/like/", likeStory);
+    app.put("/api/story/dislike/", dislikeStory);
+    app.get("/api/story/user/:userId", findStoriesByUser);
+    app.get("/api/story/like/:userId", findStoriesByLike);
+    app.put("/api/story/:storyId", updateStory);
+    app.delete("/api/story/:sid/:uid", deleteStory);
 
     storyModel = model.storyModel;
     userModel = model.userModel;
 
-    // function findSpotByGeoId(req,res){
-    //     console.log("asd");
-    //     spotModel
-    //         .findSpotByGeoId(req.params.pid)
-    //         .then(function (spot) {
-    //             if (!spot) {
-    //                 console.log("namgdado");
-    //                 res.send(500);
-    //             } else {
-    //                 console.log(spot);
-    //                 res.json(spot);
-    //             }
-    //         });
-    // }
+    function findStoriesByLike(req, res) {
+        console.log("step 3");
+        var storyId = req.params.userId;
+        var result = [];
+        userModel.findUserById(storyId)
+            .then(
+                function (user) {
+                    return user;
+                },
+                function (error) {
+                    console.log("step 8");
+                    res.sendStatus(404);
+                }
+            )
+            .then(
+                function (user) {
+                    storyModel.findStoryByIds(user.likeStory)
+                        .then(
+                            function (stories) {
+                                res.json(stories);
+                            },
+                            function (error) {
+                                res.sendStatus(404);
+                            }
+                        );
+                })
+    }
+
+
+    function findStoriesByUser(req, res) {
+        storyModel.findStoriesByUser(req.params.userId)
+            .then(
+                function (stories) {
+                    console.log("1");
+                    res.json(stories);
+                },
+                function (error) {
+                    console.log("2");
+                    res.sendStatus(404);
+                }
+            );
+    }
+
+    function searchStoriesBySpot(req, res) {
+        storyModel
+            .searchStoriesBySpot(req.params.spot)
+            .then(function (stories) {
+                if (!stories || stories.length == 0) {
+                    res.send(500);
+                } else {
+                    res.json(stories);
+                }
+            });
+    }
+
+    function likeStory(req, res) {
+        var storyId = req.body.storyId;
+        var userId = req.body.userId;
+        storyModel.addLikeForStory(storyId, userId)
+            .then(function (story) {
+                result = story;
+                return model
+                    .userModel
+                    .addLikeStoryForUser(storyId, userId);
+            })
+            .then(function (user) {
+                if (!user) {
+                    res.send(500);
+                } else {
+                    res.json(result);
+                }
+            });
+    }
+
+    function dislikeStory(req, res) {
+        var storyId = req.body.storyId;
+        var userId = req.body.userId;
+        var result;
+        storyModel.deleteLikeForStory(storyId, userId)
+            .then(function (story) {
+                result = story;
+                return model
+                    .userModel
+                    .deleteLikeStoryForUser(storyId, userId);
+            })
+            .then(function (user) {
+                if (!user) {
+                    res.send(500);
+                } else {
+                    res.json(result);
+                }
+            });
+    }
+
+    function findStoryById(req, res) {
+        storyModel
+            .findStoryById(req.params.sid)
+            .then(function (story) {
+                if (!story) {
+                    res.send(500);
+                } else {
+                    res.json(story);
+                }
+            });
+    }
 
     // function createSpot(req, res) {
     //     newSpot = req.body;
@@ -116,18 +212,18 @@ module.exports = function (app, model) {
                     res.sendStatus(500);
                 });
     }
+
     //
-    // function findAllUsers(req, res) {
-    //     userModel
-    //         .findAllUsers()
-    //         .then(function (users) {
-    //             if (err) {
-    //                 res.send(500);
-    //             } else {
-    //                 res.json(users);
-    //             }
-    //         });
-    // }
+    function findAllStories(req, res) {
+        storyModel
+            .findAllStories()
+            .then(function (stories) {
+                res.json(stories);
+            }, function (error) {
+                res.sendStatus(500);
+            });
+    }
+
     //
     // function updateUser(req, res) {
     //     userModel
@@ -141,17 +237,27 @@ module.exports = function (app, model) {
     //         });
     // }
     //
-    // function deleteUser(req, res) {
-    //     userModel
-    //         .deleteUser(req.params.userId)
-    //         .then(function (status) {
-    //             if (err) {
-    //                 res.send(500);
-    //             } else {
-    //                 res.json(status);
-    //             }
-    //         });
-    // }
+    function deleteStory(req, res) {
+        var storyId = req.params.sid;
+        var userId = req.params.uid;
+        storyModel
+            .deleteStory(storyId)
+            .then(
+                function (status) {
+                    return userModel
+                        .deleteStoryForUser(storyId, userId);
+                })
+            .then(function (user) {
+                if (err) {
+                    console.log("wewew");
+                    res.send(500);
+                } else {
+                    console.log("dasdasdadsd");
+                    res.json(user);
+                }
+            });
+    }
+
     //
     // function serializeUser(user, done) {
     //     done(null, user);
@@ -180,17 +286,15 @@ module.exports = function (app, model) {
     //     }
     // }
     //
-    // function updateUser(req, res) {
-    //     var userId = req.params.userId;
-    //     var newUser = req.body;
-    //     userModel.updateUser(userId, newUser)
-    //         .then(
-    //             function (status) {
-    //                 res.json(status);
-    //             },
-    //             function (error) {
-    //                 res.sendStatus(400);
-    //             }
-    //         );
-    // }
+    function updateStory(req, res) {
+        storyModel.updateStory(req.params.storyId, req.body)
+            .then(
+                function (status) {
+                    res.json(status);
+                },
+                function (error) {
+                    res.sendStatus(400);
+                }
+            );
+    }
 };

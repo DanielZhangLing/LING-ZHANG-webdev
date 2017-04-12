@@ -8,13 +8,15 @@ module.exports = function () {
         geoNameId: String,
         title: String,
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'},
+        authorName: String,
         description: String,
+        image: String,
         spot: String,
         rate: Number,
         tags: [{type: String}], // TODO: add tag model
         likeUser: [{type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'}],
         reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'ReviewModel'}],
-        dateCreated: {type:Date, default: Date.now()}
+        dateCreated: {type: Date, default: Date.now()}
     }, {collection: 'project.story'});
 
     return StorySchema;

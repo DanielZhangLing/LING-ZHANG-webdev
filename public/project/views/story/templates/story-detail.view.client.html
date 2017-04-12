@@ -4,11 +4,12 @@
             Story Detail
         </h3>
         <!-- Page header breadcrumb -->
-        <nav class="breadcrumb float-md-right"><a class="breadcrumb-item" href="index.htm">Home</a> <a
-                class="breadcrumb-item" href="shop.htm">Story</a> <span
+        <nav class="breadcrumb float-md-right"><a class="breadcrumb-item" href="#/login">Home</a> <a
+                class="breadcrumb-item" href="#/story">Story</a> <span
                 class="breadcrumb-item active">Story Detail</span></nav>
     </div>
 </div>
+<div ng-show="model.error" class="alert alert-danger" role="alert"><strong>Error:</strong> {{model.error}}</div>
 <div id="content" class="pt-3 pt-lg-6 pb-lg-0">
     <div class="container">
         <!-- Product view -->
@@ -19,35 +20,32 @@
                     <div class="card-block p-4 pos-relative">
                         <!-- Product details -->
                         <p class="text-muted text-uppercase text-xs mb-0"><span class="text-primary">Story</span> /
-                            Boston</p>
+                            {{model.story.spot}}</p>
                         <h2 class="card-title mb-2">
-                            Story Title
+                            {{model.story.title}}
                         </h2>
                         <h4 class="font-weight-bold text-primary">
                             <span class="op-5">Author</span>
-                            : Daniel
+                            : {{model.author}}
                         </h4>
 
                         <div class="pos-md-absolute pos-t pos-r mr-4 mt-3 text-md-right">
-                            <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i>
-                            <p class="my-0 text-xs">10 reviews | <a href="#reviews">write review</a></p>
+                            <i ng-repeat="i in (model.story.rate? (model.story.rate/1): 0)"
+                               class="fa fa-star text-primary"></i>
+                            <p class="my-0 text-xs">{{model.reviews.length}} reviews | <a href="{{model.reviewUrl}}">write
+                                review</a></p>
                         </div>
                         <hr class="my-3">
-                        <p class="text-muted text-sm">Antehabeo ille illum iusto macto meus nutus pneum tincidunt. Abbas
-                            decet duis jumentum nobis pecus. Appellatio haero meus verto. Euismod feugiat ut.Antehabeo
-                            ille illum iusto macto meus nutus pneum tincidunt. Abbas decet duis jumentum nobis pecus.
-                            AppellatioAntehabeo ille illum iusto macto meus nutus pneum tincidunt. Abbas decet duis
-                            jumentum nobis pecus. AppellatioAntehabeo ille illum iusto macto meus nutus pneum tincidunt.
-                            Abbas decet duis jumentum nobis pecus. AppellatioAntehabeo ille illum iusto macto meus nutus
-                            pneum tincidunt. Abbas decet duis jumentum nobis pecus. AppellatioAntehabeo ille illum iusto
-                            macto meus nutus pneum tincidunt. Abbas decet duis jumentum nobis pecus. AppellatioAntehabeo
-                            ille illum iusto macto meus nutus pneum tincidunt. Abbas decet duis jumentum nobis pecus.
-                            AppellatioAntehabeo ille illum iusto macto meus nutus pneum tincidunt. Abbas decet duis
-                            jumentum nobis pecus. Appellatio</p>
+                        <p class="text-muted text-sm" ng-bind-html="model.getTrustedHtml(model.story.description)"></p>
                         <!--<p class="text-muted text-sm">Acsi facilisis fere quibus quidne. Distineo elit et illum in incassum lenis magna typicus vel. Damnum ideo iriure letalis minim nulla.</p>-->
                         <hr class="my-3 mb-5">
-                        <a href="shop-cart.htm" class="btn btn-primary"><i class="fa fa-heart mr-2"></i> Add to Favorite</a>
-                        <p class="text-muted text-xs d-inline hidden-md-down">12769 people like it</p>
+                        <button ng-show="!model.liked" ng-click="model.likeStory()" class="btn btn-primary"><i
+                                class="fa fa-heart mr-2"></i> Add to Favorite
+                        </button>
+                        <button ng-show="model.liked" ng-click="model.dislikeStory()" class="btn btn-primary"><i
+                                class="fa fa-heart-o mr-2"></i> Delete from Favorite
+                        </button>
+                        <p class="text-muted text-xs d-inline hidden-md-down">{{model.likes}} people like it</p>
                     </div>
                 </div>
             </div>
@@ -56,7 +54,7 @@
                 <div class="card product-card mb-4">
                     <div class="card-block p-4">
 
-                        <h4 class="card-title">
+                        <h4 id="comments" class="card-title">
                             Story Reviews
                         </h4>
                         <i class="fa fa-star text-primary icon-1x"></i> <i class="fa fa-star text-primary icon-1x"></i>
@@ -94,7 +92,7 @@
                         <h4>
                             Add Review
                         </h4>
-                        <form id="reviews-form" class="comment-form mt-3" role="form">
+                        <form id="add-story-reviews-form" class="comment-form mt-3" role="form">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="sr-only" for="comment-name">Name</label>

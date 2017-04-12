@@ -30,8 +30,10 @@
 
         function createStory(story){
             story["author"] = vm.user._id;
+            story["authorName"] = vm.user.username;
             story["geoNameId"] = vm.spotId;
-            story["spot"] = vm.spotId.title;
+            story["spot"] = vm.spot.title.toLowerCase();
+            story["image"] = vm.spot.thumbnailImg;
             console.log(story);
             storyService.createStory(story)
                 .then(function(story){

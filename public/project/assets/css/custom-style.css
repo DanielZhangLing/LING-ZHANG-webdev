@@ -117,3 +117,11 @@
 .margin-bottom-auto{
     margin-bottom: auto;
 }
+
+.break-word{
+    word-wrap: break-word;
+}
+
+.z-index-2{
+    z-index: 2;
+}

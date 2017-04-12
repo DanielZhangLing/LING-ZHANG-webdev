@@ -6,8 +6,13 @@
     function storyService($http) {
         var api = {
             "createStory": createStory,
-            // "updateUser": updateUser,
-            // "deleteUser": deleteUser,
+            "findStoryById": findStoryById,
+            "likeStory": likeStory,
+            "dislikeStory": dislikeStory,
+            "searchStoriesBySpot": searchStoriesBySpot,
+            "findStoriesByUser": findStoriesByUser,
+            "updateStory": updateStory,
+            "deleteStory": deleteStory,
             // "findUserById": findUserById,
             // "findUserByUsername": findUserByUsername,
             // "findUserByCredentials": findUserByCredentials,
@@ -16,23 +21,102 @@
             // "login": login,
             // "logout": logout,
             // "sAdmin": isAdmin,
-            // "findAllUsers": findAllUsers
+            "findAllStories": findAllStories,
+            "findStoriesByLike": findStoriesByLike,
         };
         return api;
 
-        // function findUserById(userId) {
-        //     return $http.get('/api/user', userId)
-        //         .then(function (response) {
-        //             return response.data;
-        //         });
-        // }
+
+        function deleteStory(storyId, userId) {
+            console.log("dsdsd")
+            return $http.delete('/api/story/'+storyId+'/'+userId)
+                .then(function (response) {
+                    console.log(response);
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function findStoriesByLike(userId) {
+            console.log("step 2");
+            return $http.get('/api/story/like/' + userId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function findStoriesByUser(userId) {
+            return $http.get('/api/story/user/' + userId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function likeStory(storyId, userId) {
+            return $http.put('/api/story/like/', {
+                "storyId": storyId,
+                "userId": userId
+            })
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function dislikeStory(storyId, userId) {
+            return $http.put('/api/story/dislike/', {
+                "storyId": storyId,
+                "userId": userId
+            })
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function findStoryById(storyId) {
+            return $http.get('/api/story/' + storyId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
         //
-        // function findAllUsers() {
-        //     return $http.get('/api/admin/user')
-        //         .then(function (response) {
-        //             return response.data;
-        //         });
-        // }
+        function findAllStories() {
+            return $http.get('/api/stories')
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function searchStoriesBySpot(spot) {
+            return $http.get('/api/stories/' + spot)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
         //
         // function isAdmin() {
         //     return $http.get('/api/isAdmin')
@@ -70,7 +154,7 @@
             console.log("here");
             return $http.post('/api/story', story)
                 .then(function (response) {
-                    if(response){
+                    if (response) {
                         return response.data;
                     }
                     else
@@ -78,13 +162,13 @@
                 });
         }
 
-        // function updateUser(userId, user) {
-        //     return $http.put('/api/user/' + userId, user)
-        //         .then(function (response) {
-        //             return response.data;
-        //         },function(err){
-        //             return null;
-        //         });
-        // }
+        function updateStory(storyId, story) {
+            return $http.put('/api/story/' + storyId, story)
+                .then(function (response) {
+                    return response.data;
+                }, function (err) {
+                    return null;
+                });
+        }
     }
 })();

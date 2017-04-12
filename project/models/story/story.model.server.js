@@ -1,21 +1,24 @@
 /**
  * Created by LingZhang on 4/10/17.
  */
-/**
- * Created by LingZhang on 4/4/17.
- */
 module.exports = function () {
 
     var api = {
         // createUser: createUser,
         // findUserByCredentials: findUserByCredentials,
-        // findUserById: findUserById,
+        findStoryById: findStoryById,
+        addLikeForStory: addLikeForStory,
+        deleteLikeForStory: deleteLikeForStory,
         // findUserByUsername: findUserByUsername,
-        // findAllUsers: findAllUsers,
-        // deleteUser: deleteUser,
+        findAllStories: findAllStories,
+        deleteStory: deleteStory,
         // updateUser: updateUser,
         // findSpotByGeoId: findSpotByGeoId,
         createStory: createStory,
+        searchStoriesBySpot: searchStoriesBySpot,
+        findStoriesByUser: findStoriesByUser,
+        updateStory: updateStory,
+        findStoryByIds: findStoryByIds,
     };
 
     var q = require("q");
@@ -24,6 +27,86 @@ module.exports = function () {
     var StoryModel = mongoose.model('StoryModel', storySchema);
 
     return api;
+
+    function findStoriesByUser(userId) {
+        var d = q.defer();
+        StoryModel
+            .find({author: userId},
+                function (err, stories) {
+                    if (err) {
+                        console.log("wamg");
+                        d.reject(err);
+                    }
+                    else {
+                        console.log(stories)
+                        d.resolve(stories);
+                    }
+                });
+        return d.promise;
+    }
+
+    function searchStoriesBySpot(spot) {
+        var d = q.defer();
+        StoryModel
+            .find({spot: spot.toLowerCase()},
+                function (err, stories) {
+                    if (err) {
+                        d.reject(err);
+                    }
+                    else {
+                        console.log(stories)
+                        d.resolve(stories);
+                    }
+                });
+        return d.promise;
+    }
+
+    function findAllStories() {
+        var d = q.defer();
+        StoryModel
+            .find(function (err, stories) {
+                if (err) {
+                    d.abort(err);
+                } else {
+                    d.resolve(stories);
+                }
+            }).sort({dateCreated: -1});
+        return d.promise;
+    }
+
+    function deleteLikeForStory(storyId, userId) {
+        var d = q.defer();
+        StoryModel.findById(storyId)
+            .then(function (story) {
+                story.likeUser.pop(userId);
+                story.save(function (err, user) {
+                    if (err) {
+                        d.reject();
+                    } else {
+                        d.resolve(story);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
+    function addLikeForStory(storyId, userId) {
+        var d = q.defer();
+        StoryModel.findById(storyId)
+            .then(function (story) {
+                story.likeUser.push(userId);
+                story.save(function (err, user) {
+                    if (err) {
+                        d.reject();
+                    } else {
+                        d.resolve(story);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
 
     // function findSpotByGeoId(spotGeoId) {
     //     var d = q.defer();
@@ -70,18 +153,33 @@ module.exports = function () {
     //     return d.promise;
     // }
     //
-    // function findUserById(userId) {
-    //     var d = q.defer();
-    //     UserModel.findById(userId,
-    //         function (err, user) {
-    //             if (err) {
-    //                 d.abort(err)
-    //             } else {
-    //                 d.resolve(user);
-    //             }
-    //         });
-    //     return d.promise;
-    // }
+    function findStoryById(storyId) {
+        var d = q.defer();
+        StoryModel.findById(storyId,
+            function (err, story) {
+                if (err) {
+                    d.reject(err)
+                } else {
+                    d.resolve(story);
+                }
+            });
+        return d.promise;
+    }
+
+    function findStoryByIds(storyIds) {
+        var d = q.defer();
+        StoryModel.find({_id: {$in: storyIds}},
+            function (err, story) {
+                if (err) {
+                    d.reject(err)
+                } else {
+                    d.resolve(story);
+                }
+            });
+        return d.promise;
+    }
+
+
     //
     // function findUserByUsername(userName) {
     //     console.log("wawawa");
@@ -117,34 +215,37 @@ module.exports = function () {
     //     return d.promise;
     // }
     //
-    // function deleteUser(userId) {
-    //     var d = q.defer();
-    //     UserModel.remove({_id: userId},
-    //         function (err, status) {
-    //             if (err) {
-    //                 d.abort(err);
-    //             }
-    //             else {
-    //                 d.resolve(status);
-    //             }
-    //         });
-    // }
+    function deleteStory(storyId) {
+        console.log("dasdasdsad" + storyId);
+        var d = q.defer();
+        StoryModel.remove({_id: storyId},
+            function (err, status) {
+                if (err) {
+                    d.reject(err);
+                }
+                else {
+                    d.resolve(status);
+                }
+            });
+        return d.promise;
+    }
+
     //
-    // function updateUser(userId, user) {
-    //     var d = q.defer();
-    //     UserModel
-    //         .update({
-    //                 _id: userId
-    //             }, {
-    //                 $set: user
-    //             },
-    //             function (err, user) {
-    //                 if (err) {
-    //                     d.abort()
-    //                 } else {
-    //                     d.resolve(user);
-    //                 }
-    //             });
-    //     return d.promise;
-    // }
+    function updateStory(storyId, story) {
+        var d = q.defer();
+        StoryModel
+            .update({
+                    _id: storyId
+                }, {
+                    $set: story
+                },
+                function (err, story) {
+                    if (err) {
+                        d.reject()
+                    } else {
+                        d.resolve(story);
+                    }
+                });
+        return d.promise;
+    }
 };

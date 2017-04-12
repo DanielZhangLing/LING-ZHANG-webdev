@@ -41,13 +41,16 @@
             })
             .when("/story/", {
                 templateUrl: 'views/story/templates/story-list.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
+                controller: "StoryListController",
+                controllerAs: "model"
             })
             .when("/story/:sid", {
                 templateUrl: 'views/story/templates/story-detail.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
+                controller: "StoryDetailController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: optionalCheckLogin
+                }
             })
             .when("/spot/:pid/story", {
                 templateUrl: 'views/story/templates/story-detail.view.client.html',
@@ -69,11 +72,11 @@
             })
             .when("/user/:uid/story/:sid", {
                 templateUrl: 'views/story/templates/story-edit.view.client.html',
-                // controller: "StoryAddController",
-                // controllerAs: "model",
-                // resolve: {
-                //     currentUser: checkLogin
-                // }
+                controller: "StoryEditController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: checkLogin
+                }
             })
             .when("/deal/", {
                 templateUrl: 'views/deal/templates/deal-list.view.client.html',
@@ -108,7 +111,7 @@
                 controller: "SpotListController",
                 controllerAs: "model",
                 resolve: {
-                    currentUser: spotCheckLogin
+                    currentUser: optionalCheckLogin
                 }
             })
             .when("/spot/:pid", {
@@ -116,69 +119,69 @@
                 controller: "SpotDetailController",
                 controllerAs: "model"
             })
-            // .when("/user/:uid/website", {
-            //     templateUrl: 'views/website/templates/website-list.view.client.html',
-            //     controller: "WebsiteListController",
-            //     controllerAs: "model"
-            // })
-            // .when("/user/:uid/website/new", {
-            //     templateUrl: 'views/website/templates/website-new.view.client.html',
-            //     controller: "WebsiteNewController",
-            //     controllerAs: "model"
-            // })
-            // .when("/user/:uid/website/:wid", {
-            //     templateUrl: 'views/website/templates/website-edit.view.client.html',
-            //     controller: "WebsiteEditController",
-            //     controllerAs: "model"
-            // })
-            // .when("/user/:uid/website/:wid/page", {
-            //     templateUrl: 'views/page/templates/page-list.view.client.html',
-            //     controller: "PageListController",
-            //     controllerAs: "model"
-            //
-            // })
-            // .when("/user/:uid/website/:wid/page/new", {
-            //     templateUrl: 'views/page/templates/page-new.view.client.html',
-            //     controller: "PageNewController",
-            //     controllerAs: "model"
-            // })
-            // .when("/user/:uid/website/:wid/page/:pid", {
-            //     templateUrl: 'views/page/templates/page-edit.view.client.html',
-            //     controller: "PageEditController",
-            //     controllerAs: "model"
-            // })
-            // .when("/user/:uid/website/:wid/page/:pid/widget", {
-            //     templateUrl: 'views/widget/templates/widget-list.view.client.html',
-            //     controller: "WidgetListController",
-            //     controllerAs: "model"
-            // })
-            // .when("/user/:uid/website/:wid/page/:pid/widget/new", {
-            //     templateUrl: 'views/widget/templates/widget-choose.view.client.html',
-            //     controller: "WidgetNewController",
-            //     controllerAs: "model"
-            //
-            // })
-            // .when("/user/:uid/website/:wid/page/:pid/widget/:wgid", {
-            //     templateUrl: 'views/widget/templates/widget-edit.view.client.html',
-            //     controller: "WidgetEditController",
-            //     controllerAs: "model"
-            // })
-            // .when("/user/:uid/website/:wid/page/:pid/widget/new/:wgt", {
-            //     templateUrl: 'views/widget/templates/widget-edit.view.client.html',
-            //     controller: "WidgetEditController",
-            //     controllerAs: "model"
-            // })
-            // .when("/user/:uid/website/:wid/page/:pid/widget/:wgid/flickr", {
-            //     templateUrl: "views/widget/templates/widget-flickr-search.view.client.html",
-            //     controller: "WidgetFlickrController",
-            //     controllerAs: "model"
-            // })
+        // .when("/user/:uid/website", {
+        //     templateUrl: 'views/website/templates/website-list.view.client.html',
+        //     controller: "WebsiteListController",
+        //     controllerAs: "model"
+        // })
+        // .when("/user/:uid/website/new", {
+        //     templateUrl: 'views/website/templates/website-new.view.client.html',
+        //     controller: "WebsiteNewController",
+        //     controllerAs: "model"
+        // })
+        // .when("/user/:uid/website/:wid", {
+        //     templateUrl: 'views/website/templates/website-edit.view.client.html',
+        //     controller: "WebsiteEditController",
+        //     controllerAs: "model"
+        // })
+        // .when("/user/:uid/website/:wid/page", {
+        //     templateUrl: 'views/page/templates/page-list.view.client.html',
+        //     controller: "PageListController",
+        //     controllerAs: "model"
+        //
+        // })
+        // .when("/user/:uid/website/:wid/page/new", {
+        //     templateUrl: 'views/page/templates/page-new.view.client.html',
+        //     controller: "PageNewController",
+        //     controllerAs: "model"
+        // })
+        // .when("/user/:uid/website/:wid/page/:pid", {
+        //     templateUrl: 'views/page/templates/page-edit.view.client.html',
+        //     controller: "PageEditController",
+        //     controllerAs: "model"
+        // })
+        // .when("/user/:uid/website/:wid/page/:pid/widget", {
+        //     templateUrl: 'views/widget/templates/widget-list.view.client.html',
+        //     controller: "WidgetListController",
+        //     controllerAs: "model"
+        // })
+        // .when("/user/:uid/website/:wid/page/:pid/widget/new", {
+        //     templateUrl: 'views/widget/templates/widget-choose.view.client.html',
+        //     controller: "WidgetNewController",
+        //     controllerAs: "model"
+        //
+        // })
+        // .when("/user/:uid/website/:wid/page/:pid/widget/:wgid", {
+        //     templateUrl: 'views/widget/templates/widget-edit.view.client.html',
+        //     controller: "WidgetEditController",
+        //     controllerAs: "model"
+        // })
+        // .when("/user/:uid/website/:wid/page/:pid/widget/new/:wgt", {
+        //     templateUrl: 'views/widget/templates/widget-edit.view.client.html',
+        //     controller: "WidgetEditController",
+        //     controllerAs: "model"
+        // })
+        // .when("/user/:uid/website/:wid/page/:pid/widget/:wgid/flickr", {
+        //     templateUrl: "views/widget/templates/widget-flickr-search.view.client.html",
+        //     controller: "WidgetFlickrController",
+        //     controllerAs: "model"
+        // })
         function checkLogin($q, userService, $location) {
             var deferred = $q.defer();
             userService
                 .loggedIn()
                 .then(function (user) {
-                    if(user != '0') {
+                    if (user != '0') {
                         deferred.resolve(user);
                     } else {
                         $location.url('/login');
@@ -188,15 +191,15 @@
             return deferred.promise;
         }
 
-        function spotCheckLogin($q, userService, $location) {
+        function optionalCheckLogin($q, userService, $location) {
             var deferred = $q.defer();
             userService
                 .loggedIn()
                 .then(function (user) {
-                    if(user != '0') {
+                    if (user != '0') {
                         deferred.resolve(user);
                     } else {
-                        deferred.resolve(null);;
+                        deferred.resolve(null);
                     }
                 });
             return deferred.promise;

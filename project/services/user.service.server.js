@@ -9,7 +9,6 @@ module.exports = function (app, model) {
     var auth = authorized;
 
     // app.get("/api/user", findUser);
-    app.get("/api/user/:userId", findUserById);
     app.post("/api/user", createUser);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
@@ -21,6 +20,7 @@ module.exports = function (app, model) {
     app.post('/api/logout', logout);
     app.get('/api/user/:userId', findUserById);
     app.get('/api/user/:username', findUserByUsername);
+
     // app.post('/api/experiments/passport/admin/user', auth, createUser);
     // app.get('/api/experiments/passport/admin/user', auth, findAllUsers);
     // app.put('/api/experiments/passport/admin/user/:userId', auth, updateUser);
@@ -109,14 +109,17 @@ module.exports = function (app, model) {
     }
 
     function findUserById(req, res) {
+        console.log(req.params.userId);
         userModel
             .findUserById(req.params.userId)
             .then(function (user) {
-                if (err) {
-                    res.send(500);
-                } else {
+                if (user) {
                     res.json(user);
+                } else {
+                    res.send(500);
                 }
+            }, function (err) {
+                res.send(500);
             });
     }
 
@@ -185,7 +188,6 @@ module.exports = function (app, model) {
     }
 
     function deserializeUser(user, done) {
-        console.log("bbboom");
         userModel
             .findUserById(user._id)
             .then(
@@ -220,4 +222,5 @@ module.exports = function (app, model) {
                 }
             );
     }
+
 };
