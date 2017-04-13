@@ -18,6 +18,7 @@ module.exports = function (app, model) {
     app.get("/api/story/like/:userId", findStoriesByLike);
     app.put("/api/story/:storyId", updateStory);
     app.delete("/api/story/:sid/:uid", deleteStory);
+    app.get('/api/story/spot/:spot', findStoryBySpot);
 
     storyModel = model.storyModel;
     userModel = model.userModel;
@@ -32,7 +33,6 @@ module.exports = function (app, model) {
                     return user;
                 },
                 function (error) {
-                    console.log("step 8");
                     res.sendStatus(404);
                 }
             )
@@ -50,6 +50,19 @@ module.exports = function (app, model) {
                 })
     }
 
+
+    function findStoryBySpot(req, res) {
+        storyModel.findStoryBySpot(req.params.spot)
+            .then(
+                function (stories) {
+                    console.log(stories)
+                    res.json(stories);
+                },
+                function (error) {
+                    res.sendStatus(404);
+                }
+            );
+    }
 
     function findStoriesByUser(req, res) {
         storyModel.findStoriesByUser(req.params.userId)
@@ -243,19 +256,25 @@ module.exports = function (app, model) {
         storyModel
             .deleteStory(storyId)
             .then(
-                function (status) {
-                    return userModel
-                        .deleteStoryForUser(storyId, userId);
+                function (user) {
+                    return user;
+                },
+                function (error) {
+                    res.sendStatus(404);
                 })
-            .then(function (user) {
-                if (err) {
-                    console.log("wewew");
-                    res.send(500);
-                } else {
-                    console.log("dasdasdadsd");
-                    res.json(user);
+            .then(
+                function (status) {
+                    userModel
+                        .deleteStoryForUser(storyId, userId)
+                        .then(function (user) {
+                            if (user) {
+                                res.json(user);
+                            } else {
+                                res.send(500);
+                            }
+                        })
                 }
-            });
+            )
     }
 
     //

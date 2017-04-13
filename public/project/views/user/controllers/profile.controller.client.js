@@ -5,11 +5,11 @@
     angular
         .module("ZipStory")
         .controller("ProfileController", ProfileController);
-    function ProfileController(storyService, $location, userService, currentUser, $timeout, $routeParams) {
+    function ProfileController(reviewService, storyService, $location, userService, currentUser, $timeout, $routeParams) {
         var vm = this;
         vm.user = currentUser;
         vm.owner = $routeParams["uid"];
-        vm.isThisUser = vm.owner == vm.user._id;
+        vm.isThisUser = vm.owner == currentUser._id;
         vm.editable = false;
         var userId = vm.user._id;
         vm.rows = 10;
@@ -22,13 +22,61 @@
         vm.deleteMyStory = deleteMyStory;
         vm.findStoriesByUser = findStoriesByUser;
         vm.findStoriesByLike = findStoriesByLike;
+        vm.findReviewsByUser = findReviewsByUser;
+        vm.deleteMyReview = deleteMyReview;
+        vm.dislikeStory = dislikeStory;
 
         function init() {
+            findUserById();
             findStoriesByUser();
             findStoriesByLike();
+            findReviewsByUser();
         }
 
-        function findStoriesByLike(){
+        function dislikeStory(storyId, userId) {
+            storyService
+                .dislikeStory(storyId, userId)
+                .then(function (user) {
+                    if (user){
+                        findStoriesByLike();
+                        vm.message = "dislike successfully!"
+                    }
+                    else
+                        vm.error = "dislike failed!"
+                })
+        }
+
+        function findUserById() {
+            if (vm.owner) {
+                userService
+                    .findUserById(vm.owner)
+                    .then(function (user) {
+                        if (user) {
+                            vm.user = user;
+                        }
+                        else {
+                            vm.error = "Cannot find user you want!"
+                        }
+                    })
+            }
+        }
+
+        function findReviewsByUser() {
+            reviewService
+                .findReviewsByUser(userId)
+                .then(function (reviews) {
+                    if (reviews) {
+                        console.log(reviews);
+                        vm.allReviews = reviews;
+                        vm.reviews = vm.allReviews.slice(0, vm.rows);
+                    }
+                    else {
+                        vm.error = "Cannot find story you want!"
+                    }
+                })
+        }
+
+        function findStoriesByLike() {
             console.log("step 1");
             storyService
                 .findStoriesByLike(userId)
@@ -44,7 +92,7 @@
                 })
         }
 
-        function findStoriesByUser(){
+        function findStoriesByUser() {
             storyService
                 .findStoriesByUser(userId)
                 .then(function (stories) {
@@ -60,6 +108,19 @@
         }
 
         init();
+
+        function deleteMyReview(reviewId, userId) {
+            reviewService
+                .deleteMyReview(reviewId, userId)
+                .then(function (data) {
+                    console.log("s???");
+                    findReviewsByUser();
+                    vm.message = "Delete successfully!"
+                }, function (err) {
+                    console.log("miao")
+                    vm.error = "Delete failed, please try again!"
+                })
+        }
 
         function deleteMyStory(storyId, userId) {
             storyService
@@ -93,6 +154,7 @@
             userService
                 .logout()
                 .then(function (reponse) {
+                    rootScope.currentUser = null;
                     $location.url('/login');
                 });
         }

@@ -17,14 +17,15 @@
             "login": login,
             "logout": logout,
             "sAdmin": isAdmin,
-            "findAllUsers": findAllUsers
+            "findAllUsers": findAllUsers,
+
         };
         return api;
 
         function findUserById(userId) {
-            return $http.get('/api/user/'+userId)
+            return $http.get('/api/user/' + userId)
                 .then(function (response) {
-                    if(response)
+                    if (response)
                         return response.data;
                     else
                         return null;
@@ -81,7 +82,7 @@
             return $http.put('/api/user/' + userId, user)
                 .then(function (response) {
                     return response.data;
-                },function(err){
+                }, function (err) {
                     return null;
                 });
         }

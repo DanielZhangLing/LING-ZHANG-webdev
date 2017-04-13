@@ -38,6 +38,7 @@
             storyService.createStory(story)
                 .then(function(story){
                     if(story){
+                        console.log("wang");
                         $location.url("/story/" + story._id);
                     }else{
                         vm.error = "Posting Failed, Please try again!"

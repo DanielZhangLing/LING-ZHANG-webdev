@@ -8,7 +8,8 @@ module.exports = function () {
         updateUser: updateUser,
         deleteUser: deleteUser,
         addWebsiteForUser: addWebsiteForUser,
-        deleteWebsiteForUser: deleteWebsiteForUser
+        deleteWebsiteForUser: deleteWebsiteForUser,
+        findUserByFacebookId: findUserByFacebookId,
     };
 
     var q = require("q");
@@ -17,6 +18,10 @@ module.exports = function () {
     var UserModel = mongoose.model('UserModel', UserSchema);
 
     return api;
+
+    function findUserByFacebookId(facebookId) {
+        return UserModel.findOne({'facebook.id': facebookId});
+    }
 
     function deleteWebsiteForUser(userId, websiteId) {
         var d = q.defer();

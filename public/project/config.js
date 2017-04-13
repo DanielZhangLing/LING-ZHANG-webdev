@@ -39,6 +39,14 @@
                     currentUser: checkLogin
                 }
             })
+            .when("/profile", {
+                templateUrl: 'views/user/templates/profile.view.client.html',
+                controller: "ProfileController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: checkLogin
+                }
+            })
             .when("/story/", {
                 templateUrl: 'views/story/templates/story-list.view.client.html',
                 controller: "StoryListController",

@@ -13,7 +13,8 @@ module.exports = function () {
         userModel: require("./user/user.model.server.js")(),
         spotModel: require("./spot/spot.model.server.js")(),
         storyModel: require("./story/story.model.server.js")(),
-        dealModel: require("./deal/deal.model.server.js")()
+        dealModel: require("./deal/deal.model.server.js")(),
+        reviewModel: require("./review/review.model.server.js")()
     };
     mongoose.Promise = global.Promise;
 

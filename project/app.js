@@ -4,4 +4,5 @@ module.exports = function (app) {
     require("./services/spot.service.server")(app, model);
     require("./services/story.server.server")(app,model);
     require("./services/deal.service.server")(app, model);
+    require("./services/review.service.server")(app, model);
 };

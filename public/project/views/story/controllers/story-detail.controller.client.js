@@ -5,7 +5,7 @@
     angular
         .module("ZipStory")
         .controller("StoryDetailController", StoryDetailController);
-    function StoryDetailController(currentUser, $sce, storyService, userService, $routeParams, $location) {
+    function StoryDetailController(reviewService, currentUser, $sce, storyService, userService, $routeParams, $location) {
         var vm = this;
         vm.user = currentUser;
         vm.storyId = $routeParams["sid"];
@@ -13,6 +13,9 @@
         vm.getTrustedHtml = getTrustedHtml;
         vm.likeStory = likeStory;
         vm.dislikeStory = dislikeStory;
+        vm.createReview = createReview;
+        vm.getTimes = getTimes;
+        vm.getAvgRate = getAvgRate;
         vm.reviewUrl = $location.absUrl() + '#add-story-reviews-form';
 
         function init() {
@@ -23,19 +26,17 @@
                     if (story) {
                         vm.story = story;
                         for (i in story.likeUser)
-                            if (story.likeUser[i] = vm.user._id)
+                            if (vm.user && story.likeUser[i] == vm.user._id)
                                 vm.liked = true;
                         vm.likes = story.likeUser.length;
-                        userService
-                            .findUserById(story.author)
-                            .then(function (author) {
-                                console.log("aaa");
-                                if (author) {
-                                    console.log(author)
-                                    vm.author = author.username;
+                        reviewService
+                            .findReviewByStory(vm.storyId)
+                            .then(function (reviews) {
+                                if (reviews) {
+                                    vm.reviews = reviews;
                                 }
                                 else {
-                                    vm.error = "can't find select author, please try again!"
+                                    vm.error = "can't find select reviews, please try again!"
                                 }
                             })
                     }
@@ -43,21 +44,40 @@
                         vm.error = "can't find select story, please try again!"
                     }
                 });
-            // storyService
-            //     .findReviewsForStory(vm.storyId)
-            //     .then(function (reviews) {
-            //         if (num) {
-            //             console.log(reviews);
-            //             vm.reviews = reviews;
-            //         }
-            //         else {
-            //             vm.error = "can't find select review, please try again!"
-            //         }
-            //     });
 
         }
 
         init();
+
+        function getAvgRate(){
+            var sum = 0;
+            for (i in vm.reviews)
+                sum = sum+ vm.reviews[i].rate;
+            vm.avgRate = sum/vm.reviews.length;
+        }
+
+        function getTimes(times) {
+            return new Array(times);
+        }
+
+        function createReview(review) {
+            if (!vm.user)
+                $location.url("/login");
+            else {
+                review["author"] = vm.user._id;
+                review["authorName"] = vm.user.username;
+                review["story"] = vm.storyId;
+                console.log(review)
+                reviewService
+                    .createReview(review)
+                    .then(function (review) {
+                        if (review)
+                            vm.message = "adding review successfully!"
+                        else
+                            vm.error = "adding review failed!"
+                    })
+            }
+        }
 
         function getTrustedHtml(html) {
             return $sce.trustAsHtml(html);

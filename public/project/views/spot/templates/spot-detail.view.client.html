@@ -66,75 +66,74 @@
                 <div class="card border-top-0">
                     <div class="card-header bg-white pt-0 px-0">
                         <ul class="nav nav-tabs nav-justified card-header-tabs flex-column flex-md-row">
-                            <li class="nav-item"><a show-tab="" class="nav-link py-md-3 text-uppercase font-weight-bold"
-                                                    href="profile/#likeStoryTab" data-toggle="tab"
-                                                    aria-expanded="false">Favorite Stories</a>
+                            <li class="nav-item"><a show-tab="" class="nav-link py-md-3 text-uppercase font-weight-bold active"
+                                                    href="#/spot/{{model.spotId}}#spotStoryTab" data-toggle="tab"
+                                                    aria-expanded="true">Stories</a>
                             </li>
                             <li class="nav-item"><a show-tab=""
-                                                    class="nav-link py-md-3 text-uppercase font-weight-bold active"
-                                                    href="profile/#likeDealTab" data-toggle="tab" aria-expanded="true">Deals</a>
+                                                    class="nav-link py-md-3 text-uppercase font-weight-bold"
+                                                    href="#/spot/{{model.spotId}}#spotDealTab" data-toggle="tab" aria-expanded="false">Deals</a>
                             </li>
                         </ul>
                     </div>
                     <div class="card-block p-4">
                         <div class="tab-content">
                             <!-- Tab 1: Description tab content -->
-                            <div class="tab-pane" id="likeStoryTab" aria-expanded="true">
+                            <div class="tab-pane active" id="spotStoryTab" aria-expanded="true">
                                 <h4 class="card-title">
-                                    Favorite Stories
+                                    Stories
                                 </h4>
+                                <hr class="my-4">
                                 <div class="col-md-12 blog-roll blog-list">
                                     <!-- Blog post -->
-                                    <div class="row blog-post">
+                                    <div ng-repeat="story in model.stories" class="row blog-post">
                                         <div class="col-md-1 date-md">
                                             <!-- Date desktop -->
-                                            <div class="date-wrapper"><span class="date-m bg-primary">Feb</span> <span
-                                                    class="date-d">17</span></div>
+                                            <div class="date-wrapper"><span class="date-m bg-primary">{{story.dateCreated|date:'LLLL'}}</span>
+                                                <span class="date-d">{{story.dateCreated|date:'dd'}}</span></div>
                                             <!-- Meta details desktop -->
-                                            <p class="text-muted"><i class="fa fa-user"></i> <a href="#">Erin</a></p>
+                                            <p class="text-muted"><i class="fa fa-user"></i> <a
+                                                    href="#/user/{{story.author}}">{{story.authorName}}</a></p>
                                         </div>
                                         <div class="col-md-11">
-                                            <div class="tags"><a href="#" class="text-primary">story</a> / <a href="#"
-                                                                                                              class="type">Boston</a>
+                                            <div class="tags"><a href="#/story" class="text-primary">story</a> / <a
+                                                    href="#/spot/{{story.geoNameId}}"
+                                                    class="type">{{story.spot}}</a>
                                             </div>
                                             <h4 class="title media-heading">
-                                                <a href="blog-post.htm">At Et Luctus Sit Vicis</a>
+                                                <a href="#/story/{{story._id}}">{{story.title}}</a>
                                             </h4>
                                             <!-- Meta details mobile -->
                                             <ul class="list-inline meta text-muted">
-                                                <li class="list-inline-item"><i class="fa fa-calendar"></i> Fri 17th Feb
-                                                    2017
+                                                <li class="list-inline-item"><i class="fa fa-calendar"></i>
+                                                    {{story.dateCreated| date:'MM/dd/yyyy'}}
                                                 </li>
                                                 <li class="list-inline-item"><i class="fa fa-user"></i> <a
-                                                        href="#">Erin</a></li>
+                                                        href="#/user/{{story.author}}">{{story.authorName}}</a></li>
                                             </ul>
                                             <div class="row">
                                                 <div class="col-md-4 push-md-8">
                                                     <div class="blog-media">
-                                                        <a href="blog-post.htm">
-                                                            <img src="assets/img/blog/water-pump.jpg"
-                                                                 alt="Picture of frog by Ben Fredericson"
+                                                        <a href="#/story/{{story._id}}">
+                                                            <img src="{{story.image}}" alt="Card image cap"
                                                                  class="img-fluid">
                                                         </a>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8 pull-md-4">
-                                                    <p>Jumentum neque paratus praesent typicus venio virtus vulputate.
-                                                        Autem nisl scisco. Amet eu interdico nibh premo tamen ut vel.
-                                                        Aliquip consectetuer dolore lenis quadrum turpis.</p>
-                                                    <p>Humo mauris nisl ratis typicus uxor veniam. Hendrerit ludus neo.
-                                                        Abdo adipiscing ille nobis quia quis refoveo sed vereor. Hos
-                                                        humo nibh quia sino. Ad dolore jus metuo paulatim valde
-                                                        vulputate.</p>
+                                                    <p class="break-word">
+                                                        {{model.htmlToPlaintext(story.description)}}</p>
                                                     <ul class="list-inline links">
                                                         <li class="list-inline-item">
-                                                            <a href="blog-post.htm" class="btn btn-secondary btn-sm"><i
+                                                            <a href="#/story/{{story._id}}"
+                                                               class="btn btn-secondary btn-sm"><i
                                                                     class="fa fa-arrow-circle-right"></i> Read more</a>
                                                         </li>
                                                         <li class="list-inline-item">
-                                                            <a href="blog-post.htm#comments"
+                                                            <a href="#/story/{{story._id}}#comments"
                                                                class="btn btn-secondary btn-sm"><i
-                                                                    class="fa fa-comment"></i> 10 Comments</a>
+                                                                    class="fa fa-comment"></i> {{story.reviews.length}}
+                                                                Comments</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -142,12 +141,18 @@
                                         </div>
                                     </div>
                                     <!-- Blog post -->
+
+                                    <div class="pagination">
+                                        <button ng-click="model.showMore()" type="button"
+                                                class="btn btn-secondary btn-lg btn-block">Load More
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Tab 2: Specification tab content -->
-                            <div class="tab-pane active" id="likeDealTab" aria-expanded="false">
+                            <div class="tab-pane" id="spotDealTab" aria-expanded="false">
                                 <h4 class="card-title">
-                                    Favorite Deals
+                                    Deals
                                 </h4>
                                 <div class="row">
                                     <div class="col-lg-12">

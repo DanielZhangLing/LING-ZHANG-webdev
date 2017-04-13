@@ -16,6 +16,8 @@ module.exports = function () {
         addLikeStoryForUser: addLikeStoryForUser,
         deleteLikeStoryForUser: deleteLikeStoryForUser,
         deleteStoryForUser: deleteStoryForUser,
+        addReviewForUser: addReviewForUser,
+        deleteReviewForUser: deleteReviewForUser
     };
 
     var q = require("q");
@@ -24,6 +26,23 @@ module.exports = function () {
     var UserModel = mongoose.model('UserModel', userSchema);
 
     return api;
+
+    function addReviewForUser(reviewId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                user.myReview.push(reviewId);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
 
     function deleteStoryForUser(storyId, userId){
         var d = q.defer();
@@ -35,6 +54,7 @@ module.exports = function () {
                     if(err){
                         d.reject();
                     }else{
+                        console.log("sadadsdasd");
                         d.resolve(user);
                     }
                 });
@@ -52,6 +72,25 @@ module.exports = function () {
                     if(err){
                         d.reject();
                     }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
+    function deleteReviewForUser(reviewId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                var index = user.myReview.indexOf(reviewId);
+                user.myReview.splice(index, 1);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        console.log("s6");
                         d.resolve(user);
                     }
                 });
@@ -173,7 +212,6 @@ module.exports = function () {
         UserModel
             .findOne({
                     username: credentials.username,
-                    password: credentials.password
                 },
                 function (err, user) {
                     if (err) {

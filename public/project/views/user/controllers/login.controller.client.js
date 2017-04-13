@@ -5,7 +5,7 @@
     angular
         .module("ZipStory")
         .controller("LoginController", LoginController);
-    function LoginController(userService, $location) {
+    function LoginController(userService, $location,$rootScope) {
         var vm = this;
         vm.login = login;
         function init() {
@@ -17,6 +17,7 @@
                 .login(user)
                 .then(function (user) {
                     if (user) {
+                        $rootScope.currentUser = user;
                         $location.url("/user/" + user._id)
                     }
                     else {

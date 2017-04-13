@@ -7,7 +7,8 @@ module.exports = function () {
     var ReviewSchema = mongoose.Schema({
         story: {type: mongoose.Schema.Types.ObjectId, ref: 'StoryModel'},
         deal: {type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'},
-        name: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'},
+        author: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'},
+        authorName: String,
         email: String,
         rate: Number,
         comments: String,

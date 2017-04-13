@@ -19,6 +19,7 @@ module.exports = function () {
         findStoriesByUser: findStoriesByUser,
         updateStory: updateStory,
         findStoryByIds: findStoryByIds,
+        findStoryBySpot: findStoryBySpot,
     };
 
     var q = require("q");
@@ -27,6 +28,21 @@ module.exports = function () {
     var StoryModel = mongoose.model('StoryModel', storySchema);
 
     return api;
+
+    function findStoryBySpot(spot){
+        var d = q.defer();
+        StoryModel
+            .find({spot: spot.toLowerCase()},
+                function (err, stories) {
+                    if (err) {
+                        d.reject(err);
+                    }
+                    else {
+                        d.resolve(stories);
+                    }
+                });
+        return d.promise;
+    }
 
     function findStoriesByUser(userId) {
         var d = q.defer();

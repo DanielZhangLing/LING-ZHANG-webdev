@@ -26,7 +26,7 @@
                         </h2>
                         <h4 class="font-weight-bold text-primary">
                             <span class="op-5">Author</span>
-                            : {{model.author}}
+                            : {{model.story.authorName}}
                         </h4>
 
                         <div class="pos-md-absolute pos-t pos-r mr-4 mt-3 text-md-right">
@@ -57,33 +57,19 @@
                         <h4 id="comments" class="card-title">
                             Story Reviews
                         </h4>
-                        <i class="fa fa-star text-primary icon-1x"></i> <i class="fa fa-star text-primary icon-1x"></i>
-                        <i class="fa fa-star text-primary icon-1x"></i> <i class="fa fa-star text-primary icon-1x"></i>
-                        <i class="fa fa-star text-primary icon-1x"></i> <span class="my-0 text-xs">10 reviews</span>
+                        <i ng-repeat="a in model.getTimes(model.avgRate) track by $index" class="fa fa-star text-primary icon-1x"></i> <i class="fa fa-star text-primary icon-1x"></i>
+                        <i class="fa fa-star text-primary icon-1x"></i> <span class="my-0 text-xs">{{model.reviews.length}} reviews</span>
                         <hr class="my-4">
                         <ul class="comments mt-3 list-unstyled">
-                            <li class="media mb-3 pos-relative">
-                                <a href="#">
-                                    <img src="http://localhost:63342/appStrap/theme/assets/img/team/obama@2x.jpg"
-                                         alt="Picture of Jo" class="d-flex mr-3 img-thumbnail img-fluid" width="0"
-                                         height="0">
-                                </a>
+                            <li ng-repeat="review in model.reviews" class="media mb-3 pos-relative">
                                 <div class="media-body">
                                     <ul class="list-inline blog-meta text-muted">
-                                        <li class="list-inline-item"><i class="fa fa-calendar"></i> Thu 16th Feb 2017
+                                        <li class="list-inline-item"><i class="fa fa-calendar"></i> {{review.dateCreated|date:'MM/dd/yyyy'}}
                                         </li>
-                                        <li class="list-inline-item"><i class="fa fa-user"></i> <a href="">Joe</a></li>
+                                        <li class="list-inline-item"><i class="fa fa-user"></i> <a href="#/profile/{{review.author}}">{{review.authorName}}</a></li>
                                     </ul>
-                                    <h5 class="mt-0 mb-2">
-                                        Nisi rhoncus nisi porttitor risus ridiculus tristique, quis.
-                                    </h5>
-                                    <p class="mb-1">Nisi rhoncus nisi porttitor risus ridiculus tristique, quis.Nisi
-                                        rhoncus nisi porttitor risus ridiculus tristique, quis.Nisi rhoncus nisi
-                                        porttitor risus ridiculus tristique, quis.Nisi rhoncus nisi porttitor risus
-                                        ridiculus tristique, quis.</p>
-                                    <p><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i
-                                            class="fa fa-star text-primary"></i><i
-                                            class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i>
+                                    <p class="mb-1">{{review.comments}}</p>
+                                    <p><i ng-repeat="a in model.getTimes(review.rate) track by $index" class="fa fa-star text-primary"></i>
                                     </p>
                                 </div>
                             </li>
@@ -96,11 +82,11 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="sr-only" for="comment-name">Name</label>
-                                    <input type="text" class="form-control mb-3" id="comment-name" placeholder="Name">
+                                    <input disabled ng-model="model.user.username" type="text" class="form-control mb-3" id="comment-name" placeholder="Name">
                                     <label class="sr-only" for="comment-name">Email</label>
-                                    <input type="email" class="form-control mb-3" id="comment-email"
+                                    <input ng-model="review.email" type="email" class="form-control mb-3" id="comment-email"
                                            placeholder="Email">
-                                    <select class="form-control" placeholder="Star rating">
+                                    <select ng-model="review.rate" class="form-control" placeholder="Star rating">
                                         <option>- Stars -</option>
                                         <option>1</option>
                                         <option>2</option>
@@ -111,11 +97,11 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="sr-only" for="comment-comment">Comment</label>
-                                    <textarea rows="7" class="form-control" id="comment-comment"
+                                    <textarea ng-model="review.comments" rows="7" class="form-control" id="comment-comment"
                                               placeholder="Comment"></textarea>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary float-right">Submit</button>
+                            <button ng-click="model.createReview(review)" type="submit" class="btn btn-primary float-right">Submit</button>
                         </form>
                     </div>
 

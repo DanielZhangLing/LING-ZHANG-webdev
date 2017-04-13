@@ -13,6 +13,7 @@
             "findStoriesByUser": findStoriesByUser,
             "updateStory": updateStory,
             "deleteStory": deleteStory,
+            "findStoryBySpot": findStoryBySpot,
             // "findUserById": findUserById,
             // "findUserByUsername": findUserByUsername,
             // "findUserByCredentials": findUserByCredentials,
@@ -26,12 +27,20 @@
         };
         return api;
 
+        function findStoryBySpot(spot) {
+            return $http.get('/api/story/spot/' + spot)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
 
         function deleteStory(storyId, userId) {
             console.log("dsdsd")
-            return $http.delete('/api/story/'+storyId+'/'+userId)
+            return $http.delete('/api/story/' + storyId + '/' + userId)
                 .then(function (response) {
-                    console.log(response);
                     if (response)
                         return response.data;
                     else
@@ -42,6 +51,17 @@
         function findStoriesByLike(userId) {
             console.log("step 2");
             return $http.get('/api/story/like/' + userId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function dislikeStory(storyId, userId) {
+            return $http.put('/api/user/dislike',
+                {"userId": userId, "storyId": storyId})
                 .then(function (response) {
                     if (response)
                         return response.data;
