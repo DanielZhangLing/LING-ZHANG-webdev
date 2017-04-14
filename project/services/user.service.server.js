@@ -45,8 +45,37 @@ module.exports = function (app, model) {
     userModel = model.userModel;
 
     function facebookStrategy(token, refreshToken, profile, done) {
-        developerModel
+        userModel
             .findUserByFacebookId(profile.id)
+            .then(
+                function(user) {
+                    if(user) {
+                        return done(null, user);
+                    } else {
+                        var newFacebookUser = {
+                            username:  profile.displayName,
+                            firstname: profile.name.givenName,
+                            lastname:  profile.name.familyName,
+                            facebook: {
+                                id:    profile.id,
+                                token: token
+                            }
+                        };
+                        return userModel.createUser(newFacebookUser);
+                    }
+                },
+                function(err) {
+                    if (err) { return done(err); }
+                }
+            )
+            .then(
+                function(user){
+                    return done(null, user);
+                },
+                function(err){
+                    if (err) { return done(err); }
+                }
+            );
     }
 
     function localStrategy(username, password, done) {
