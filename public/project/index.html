@@ -66,7 +66,7 @@
         <div class="header-inner container">
             <div class="header-block-flex flex-first mr-auto">
                 <nav class="nav nav-sm header-block-flex">
-                    <a class="nav-link hidden-md-up" href="login.htm"><i class="fa fa-user"></i></a>
+                    <a class="nav-link hidden-md-up" href="#/profile"><i class="fa fa-user"></i></a>
                     <a class="nav-link text-xs text-uppercase hidden-sm-down" href="#/register">Sign
                         Up</a>
                     <a class="nav-link text-xs text-uppercase hidden-sm-down" href="#/login">Login</a>
@@ -75,19 +75,25 @@
             <!--social media icons-->
             <div class="nav nav-icons header-block flex-last">
                 <!--@todo: replace with company social media details-->
-                <a href="#" class="nav-link"> <i class="fa fa-twitter-square icon-1x"></i> <span class="sr-only">Twitter</span> </a>
-                <a href="/auth/facebook" class="nav-link"> <i class="fa fa-facebook-square icon-1x"></i> <span class="sr-only">Facebook</span> </a>
-                <a href="#" class="nav-link"> <i class="fa fa-linkedin-square icon-1x"></i> <span class="sr-only">Linkedin</span> </a>
-                <a href="#" class="nav-link"> <i class="fa fa-google-plus-square icon-1x"></i> <span class="sr-only">Google plus</span> </a>
+                <a href="#" class="nav-link"> <i class="fa fa-twitter-square icon-1x"></i> <span
+                        class="sr-only">Twitter</span> </a>
+                <a href="/auth/facebook" class="nav-link"> <i class="fa fa-facebook-square icon-1x"></i> <span
+                        class="sr-only">Facebook</span> </a>
+                <a href="#" class="nav-link"> <i class="fa fa-linkedin-square icon-1x"></i> <span class="sr-only">Linkedin</span>
+                </a>
+                <a href="#" class="nav-link"> <i class="fa fa-google-plus-square icon-1x"></i> <span class="sr-only">Google plus</span>
+                </a>
             </div>
         </div>
     </div>
     <div data-toggle="sticky">
         <div class="header-search collapse" id="search">
             <form class="search-form container">
-                <input type="text" name="search" class="form-control search" value="" placeholder="Search">
-                <button type="button" class="btn btn-link"><span class="sr-only">Search </span><i
-                        class="fa fa-search fa-flip-horizontal search-icon"></i></button>
+                <input ng-model="headKeyword" type="text" name="search" class="form-control search" placeholder="Search">
+                <a href="#/spot/search/{{headKeyword}}">
+                    <button type="button" class="btn btn-link"><span class="sr-only">Search </span><i
+                            class="fa fa-search fa-flip-horizontal search-icon"></i></button>
+                </a>
                 <button type="button" class="btn btn-link close-btn" data-toggle="search-form-close"><span
                         class="sr-only">Close </span><i class="fa fa-times search-icon"></i></button>
             </form>
@@ -125,14 +131,14 @@
                         <ul class="nav navbar-nav float-lg-right dropdown-effect-fade">
                             <!-- Homepages -->
                             <li class="nav-item">
-                                <a href="index.htm" class="nav-link" id="indexs-drop"> <i
+                                <a href="#/" class="nav-link" id="indexs-drop"> <i
                                         class="fa fa-home nav-link-icon"></i> <span class="hidden-xs-up">Home</span>
                                 </a>
                             </li>
 
                             <!-- Pages -->
                             <li class="nav-item">
-                                <a href="#" class="nav-link" id="profile-drop">Profiles</a>
+                                <a href="#/profile" class="nav-link" id="profile-drop">Profiles</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#/spot" class="nav-link" id="spots-drop">Spots</a>

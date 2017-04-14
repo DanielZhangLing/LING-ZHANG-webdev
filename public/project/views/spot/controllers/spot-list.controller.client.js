@@ -5,17 +5,21 @@
     angular
         .module("ZipStory")
         .controller("SpotListController", SpotListController);
-    function SpotListController(spotService, $location, currentUser) {
+    function SpotListController($routeParams,spotService, $location, currentUser) {
         var vm = this;
         vm.user = currentUser;
         vm.rows = 10;
+        vm.headKeyword =$routeParams['headKeyword'];
         vm.search = search;
         vm.showMore = showMore;
         vm.createSpot = createSpot;
         // vm.findWikiByGeoId = findWikiByGeoId;
 
         function init() {
-            if (vm.user) {
+            if(vm.headKeyword){
+                vm.search(vm.headKeyword);
+            }
+            else if (vm.user) {
                 vm.search(vm.user.state);
             } else {
                 vm.search('Boston');

@@ -122,6 +122,14 @@
                     currentUser: optionalCheckLogin
                 }
             })
+            .when("/spot/search/:headKeyword", {
+                templateUrl: 'views/spot/templates/spot-list.view.client.html',
+                controller: "SpotListController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: optionalCheckLogin
+                }
+            })
             .when("/spot/:pid", {
                 templateUrl: 'views/spot/templates/spot-detail.view.client.html',
                 controller: "SpotDetailController",
