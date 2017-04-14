@@ -39,6 +39,14 @@
                     currentUser: checkLogin
                 }
             })
+            .when("/profile/:uid", {
+                templateUrl: 'views/user/templates/profile.view.client.html',
+                controller: "ProfileController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: checkLogin
+                }
+            })
             .when("/profile", {
                 templateUrl: 'views/user/templates/profile.view.client.html',
                 controller: "ProfileController",
@@ -88,13 +96,16 @@
             })
             .when("/deal/", {
                 templateUrl: 'views/deal/templates/deal-list.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
+                controller: "DealListController",
+                controllerAs: "model"
             })
             .when("/deal/:did", {
                 templateUrl: 'views/deal/templates/deal-detail.view.client.html',
-                // controller: "ProfileController",
-                // controllerAs: "model"
+                controller: "DealDetailController",
+                controllerAs: "model",
+                resolve: {
+                    currentUser: optionalCheckLogin
+                }
             })
             .when("/user/:uid/deal/new", {
                 templateUrl: 'views/deal/templates/deal-add.view.client.html',

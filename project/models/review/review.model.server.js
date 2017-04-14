@@ -8,6 +8,7 @@ module.exports = function () {
         // findUserByCredentials: findUserByCredentials,
         createReview: createReview,
         findReviewByStory: findReviewByStory,
+        findReviewByDeal: findReviewByDeal,
         findReviewsByUser: findReviewsByUser,
         deleteReview: deleteReview,
 
@@ -53,6 +54,22 @@ module.exports = function () {
         var d = q.defer();
         ReviewModel
             .find({story: storyId},
+                function (err, reviews) {
+                    if (err) {
+                        d.reject(err);
+                    }
+                    else {
+                        console.log(reviews)
+                        d.resolve(reviews);
+                    }
+                });
+        return d.promise;
+    }
+
+    function findReviewByDeal(dealId) {
+        var d = q.defer();
+        ReviewModel
+            .find({deal: dealId},
                 function (err, reviews) {
                     if (err) {
                         d.reject(err);

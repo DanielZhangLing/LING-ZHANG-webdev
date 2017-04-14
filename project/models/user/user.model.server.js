@@ -13,9 +13,14 @@ module.exports = function () {
         updateUser: updateUser,
         addStoryForUser: addStoryForUser,
         addDealForUser: addDealForUser,
+        postDealForUser: postDealForUser,
         addLikeStoryForUser: addLikeStoryForUser,
+        addLikeDealForUser: addLikeDealForUser,
         deleteLikeStoryForUser: deleteLikeStoryForUser,
+        deleteLikeDealForUser: deleteLikeDealForUser,
         deleteStoryForUser: deleteStoryForUser,
+        deleteDealForUser: deleteDealForUser,
+        deletePostDealForUser: deletePostDealForUser,
         addReviewForUser: addReviewForUser,
         deleteReviewForUser: deleteReviewForUser,
         findUserByFacebookId: findUserByFacebookId,
@@ -68,11 +73,66 @@ module.exports = function () {
         return d.promise;
     }
 
+    function deleteDealForUser(dealId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                var index = user.myDeal.indexOf(dealId);
+                user.myDeal.splice(index, 1);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        console.log("sadadsdasd");
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
+    function deletePostDealForUser(dealId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                var index = user.postDeal.indexOf(dealId);
+                user.postDeal.splice(index, 1);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        console.log("sadadsdasd");
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
     function deleteLikeStoryForUser(storyId, userId){
         var d = q.defer();
         UserModel.findById(userId)
             .then(function(user){
                 user.likeStory.pull(storyId);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
+    function deleteLikeDealForUser(dealId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                user.likeDeal.pull(dealId);
                 user.save(function(err, user){
                     if(err){
                         d.reject();
@@ -121,6 +181,23 @@ module.exports = function () {
         return d.promise;
     }
 
+    function addLikeDealForUser(dealId, userId){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                user.likeDeal.push(dealId);
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
     function addStoryForUser(userId, story){
         var d = q.defer();
         UserModel.findById(userId)
@@ -138,11 +215,30 @@ module.exports = function () {
         return d.promise;
     }
 
-    function addDealForUser(userId, deal){
+    function addDealForUser(dealId, userId){
         var d = q.defer();
         UserModel.findById(userId)
             .then(function(user){
-                user.myDeal.push(deal._id);
+                console.log("lalalala");
+                user.myDeal.push(dealId);
+                console.log("lololo");
+                user.save(function(err, user){
+                    if(err){
+                        d.reject();
+                    }else{
+                        d.resolve(user);
+                    }
+                });
+            });
+
+        return d.promise;
+    }
+
+    function postDealForUser(userId, deal){
+        var d = q.defer();
+        UserModel.findById(userId)
+            .then(function(user){
+                user.postDeal.push(deal._id);
                 user.save(function(err, deal){
                     if(err){
                         d.reject();
@@ -253,7 +349,7 @@ module.exports = function () {
                 },
                 function (err, user) {
                     if (err) {
-                        d.abort()
+                        d.reject()
                     } else {
                         d.resolve(user);
                     }

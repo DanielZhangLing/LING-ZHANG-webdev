@@ -34,7 +34,14 @@ module.exports = function (app, model) {
                     if (spot) {
                         res.json(spot);
                     } else {
-                        return spotModel.createSpot(newSpot);
+                        spotModel
+                            .createSpot(newSpot)
+                            .then(function(spot){
+                                if(spot)
+                                    res.json(spot);
+                                else
+                                    res.status(500);
+                            })
                     }
                 },
                 function (err) {

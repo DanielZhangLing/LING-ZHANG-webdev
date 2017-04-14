@@ -30,8 +30,10 @@
                         </h4>
 
                         <div class="pos-md-absolute pos-t pos-r mr-4 mt-3 text-md-right">
-                            <i ng-repeat="i in (model.story.rate? (model.story.rate/1): 0)"
-                               class="fa fa-star text-primary"></i>
+                            <i ng-repeat="a in model.getTimes(model.avgRate? model.avgRate:0) track by $index"
+                               class="fa fa-star text-primary icon-1x"></i>
+                            <i ng-repeat="a in (model.getTimes(5-(model.avgRate? model.avgRate:0))) track by $index"
+                               class="fa fa-star-o text-primary icon-1x"></i>
                             <p class="my-0 text-xs">{{model.reviews.length}} reviews | <a href="{{model.reviewUrl}}">write
                                 review</a></p>
                         </div>
@@ -57,8 +59,10 @@
                         <h4 id="comments" class="card-title">
                             Story Reviews
                         </h4>
-                        <i ng-repeat="a in model.getTimes(model.avgRate) track by $index" class="fa fa-star text-primary icon-1x"></i> <i class="fa fa-star text-primary icon-1x"></i>
-                        <i class="fa fa-star text-primary icon-1x"></i> <span class="my-0 text-xs">{{model.reviews.length}} reviews</span>
+                        <i ng-repeat="a in model.getTimes(model.avgRate? model.avgRate:0) track by $index"
+                           class="fa fa-star text-primary icon-1x"></i>
+                        <i ng-repeat="a in (model.getTimes(5-(model.avgRate? model.avgRate:0))) track by $index"
+                           class="fa fa-star-o text-primary icon-1x"></i><span class="my-0 text-xs">{{model.reviews.length}} reviews</span>
                         <hr class="my-4">
                         <ul class="comments mt-3 list-unstyled">
                             <li ng-repeat="review in model.reviews" class="media mb-3 pos-relative">
@@ -70,6 +74,7 @@
                                     </ul>
                                     <p class="mb-1">{{review.comments}}</p>
                                     <p><i ng-repeat="a in model.getTimes(review.rate) track by $index" class="fa fa-star text-primary"></i>
+                                        <i ng-repeat="a in model.getTimes(5-review.rate) track by $index" class="fa fa-star-o text-primary"></i>
                                     </p>
                                 </div>
                             </li>
@@ -82,11 +87,11 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="sr-only" for="comment-name">Name</label>
-                                    <input disabled ng-model="model.user.username" type="text" class="form-control mb-3" id="comment-name" placeholder="Name">
+                                    <input required disabled ng-model="model.user.username" type="text" class="form-control mb-3" id="comment-name" placeholder="Name">
                                     <label class="sr-only" for="comment-name">Email</label>
                                     <input ng-model="review.email" type="email" class="form-control mb-3" id="comment-email"
                                            placeholder="Email">
-                                    <select ng-model="review.rate" class="form-control" placeholder="Star rating">
+                                    <select required ng-model="review.rate" class="form-control" placeholder="Star rating">
                                         <option>- Stars -</option>
                                         <option>1</option>
                                         <option>2</option>

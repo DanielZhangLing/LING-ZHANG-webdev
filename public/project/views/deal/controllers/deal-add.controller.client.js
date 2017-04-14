@@ -1,5 +1,5 @@
 /**
- * Created by LingZhang on 4/10/17.
+ * Created by LingZhang on 4/9/17.
  */
 (function () {
     angular
@@ -30,8 +30,10 @@
 
         function createDeal(deal){
             deal["author"] = vm.user._id;
+            deal["authorName"] = vm.user.username;
             deal["geoNameId"] = vm.spotId;
-            deal["spot"] = vm.spotId.title;
+            deal["spot"] = vm.spot.title.toLowerCase();
+            deal["image"] = vm.spot.thumbnailImg;
             console.log(deal);
             dealService.createDeal(deal)
                 .then(function(deal){

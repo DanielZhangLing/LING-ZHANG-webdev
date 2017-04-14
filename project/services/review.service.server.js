@@ -5,6 +5,7 @@ module.exports = function (app, model) {
 
     app.post("/api/review", createReview);
     app.get("/api/review/story/:storyId", findReviewByStory);
+    app.get("/api/review/deal/:dealId", findReviewByDeal);
     app.get("/api/review/user/:userId", findReviewsByUser);
     app.delete('/api/review/:reviewId/user/:userId', deleteMyReview)
 
@@ -66,6 +67,20 @@ module.exports = function (app, model) {
 
     function findReviewByStory(req, res) {
         reviewModel.findReviewByStory(req.params.storyId)
+            .then(
+                function (reviews) {
+                    console.log("1");
+                    res.json(reviews);
+                },
+                function (error) {
+                    console.log("2");
+                    res.sendStatus(404);
+                }
+            );
+    }
+
+    function findReviewByDeal(req, res) {
+        reviewModel.findReviewByDeal(req.params.dealId)
             .then(
                 function (reviews) {
                     console.log("1");

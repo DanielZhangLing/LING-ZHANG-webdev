@@ -4,39 +4,46 @@
 (function () {
     angular
         .module("ZipStory")
-        .controller("StoryDetailController", StoryDetailController);
-    function StoryDetailController(reviewService, currentUser, $sce, storyService, userService, $routeParams, $location) {
+        .controller("DealDetailController", DealDetailController);
+    function DealDetailController(reviewService, currentUser, $sce, dealService, userService, $routeParams, $location) {
         var vm = this;
         vm.user = currentUser;
-        vm.storyId = $routeParams["sid"];
+        vm.dealId = $routeParams["did"];
         vm.liked = false;
+        vm.bought = false;
         vm.getTrustedHtml = getTrustedHtml;
-        vm.likeStory = likeStory;
-        vm.dislikeStory = dislikeStory;
+        vm.likeDeal = likeDeal;
+        vm.dislikeDeal = dislikeDeal;
         vm.createReview = createReview;
+        vm.buyDeal = buyDeal;
+        vm.cancelDeal = cancelDeal;
         vm.getTimes = getTimes;
         vm.getAvgRate = getAvgRate;
-        vm.reviewUrl = $location.absUrl() + '#add-story-reviews-form';
+        vm.reviewUrl = $location.absUrl() + '#add-deal-reviews-form';
 
         function init() {
-
-            storyService
-                .findStoryById(vm.storyId)
-                .then(function (story) {
-                    if (story) {
-                        vm.story = story;
-                        for (i in story.likeUser)
-                            if (vm.user && story.likeUser[i] == vm.user._id)
+            dealService
+                .findDealById(vm.dealId)
+                .then(function (deal) {
+                    if (deal) {
+                        vm.deal = deal;
+                        for (i in deal.likeUser)
+                            if (vm.user && deal.likeUser[i] == vm.user._id)
                                 vm.liked = true;
-                        vm.likes = story.likeUser.length;
+                        vm.likes = deal.likeUser.length;
+                        vm.sales = deal.buyUser.length;
                         if (vm.user) {
-                            for (i in story.likeUser) {
-                                if (vm.user._id == story.likeUser[i])
+                            for (i in deal.likeUser) {
+                                if (vm.user._id == deal.likeUser[i])
                                     vm.liked = true;
+                            }
+                            for (i in deal.buyUser) {
+                                if (vm.user._id == deal.buyUser[i])
+                                    vm.bought = true;
                             }
                         }
                         reviewService
-                            .findReviewByStory(vm.storyId)
+                            .findReviewByDeal(vm.dealId)
                             .then(function (reviews) {
                                 if (reviews) {
                                     vm.reviews = reviews;
@@ -48,7 +55,7 @@
                             })
                     }
                     else {
-                        vm.error = "can't find select story, please try again!"
+                        vm.error = "can't find select deal, please try again!"
                     }
                 });
 
@@ -73,15 +80,15 @@
             else {
                 review["author"] = vm.user._id;
                 review["authorName"] = vm.user.username;
-                review["story"] = vm.storyId;
+                review["deal"] = vm.dealId;
                 console.log(review)
                 reviewService
                     .createReview(review)
                     .then(function (review) {
                         if (review) {
-                            vm.message = "adding review successfully!"
+                            vm.message = "adding review successfully!";
                             reviewService
-                                .findReviewByStory(vm.storyId)
+                                .findReviewByDeal(vm.dealId)
                                 .then(function (reviews) {
                                     if (reviews) {
                                         vm.reviews = reviews;
@@ -102,13 +109,13 @@
             return $sce.trustAsHtml(html);
         }
 
-        function likeStory() {
+        function likeDeal() {
             if (!vm.user)
                 $location.url('/login');
             else {
                 console.log("1");
-                storyService
-                    .likeStory(vm.storyId, vm.user._id)
+                dealService
+                    .likeDeal(vm.dealId, vm.user._id)
                     .then(function (data) {
                         if (data) {
                             console.log(data)
@@ -121,16 +128,52 @@
             }
         }
 
-        function dislikeStory() {
+        function buyDeal() {
             if (!vm.user)
                 $location.url('/login');
             else {
-                storyService
-                    .dislikeStory(vm.storyId, vm.user._id)
+                console.log("1");
+                dealService
+                    .buyDeal(vm.dealId, vm.user._id)
+                    .then(function (data) {
+                        if (data) {
+                            console.log(data)
+                            vm.sales = data.buyUser.length;
+                            vm.bought = true;
+                        } else {
+                            vm.error = "adding failed, please try again!"
+                        }
+                    })
+            }
+        }
+
+        function dislikeDeal() {
+            if (!vm.user)
+                $location.url('/login');
+            else {
+                dealService
+                    .dislikeDeal(vm.dealId, vm.user._id)
                     .then(function (data) {
                         if (data) {
                             vm.likes = data.likeUser.length;
                             vm.liked = false;
+                        } else {
+                            vm.error = "cancelling failed, please try again!"
+                        }
+                    })
+            }
+        }
+
+        function cancelDeal() {
+            if (!vm.user)
+                $location.url('/login');
+            else {
+                dealService
+                    .cancelDeal(vm.dealId, vm.user._id)
+                    .then(function (data) {
+                        if (data) {
+                            vm.sales = data.buyUser.length;
+                            vm.bought = false;
                         } else {
                             vm.error = "cancelling failed, please try again!"
                         }

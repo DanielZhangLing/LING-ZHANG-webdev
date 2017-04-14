@@ -93,19 +93,6 @@
                 });
         }
 
-        function dislikeStory(storyId, userId) {
-            return $http.put('/api/story/dislike/', {
-                "storyId": storyId,
-                "userId": userId
-            })
-                .then(function (response) {
-                    if (response)
-                        return response.data;
-                    else
-                        return null;
-                });
-        }
-
         function findStoryById(storyId) {
             return $http.get('/api/story/' + storyId)
                 .then(function (response) {

@@ -1,6 +1,3 @@
-/**
- * Created by LingZhang on 4/10/17.
- */
 (function () {
     angular
         .module("ZipStory")
@@ -9,8 +6,16 @@
     function dealService($http) {
         var api = {
             "createDeal": createDeal,
-            // "updateUser": updateUser,
-            // "deleteUser": deleteUser,
+            "findDealById": findDealById,
+            "likeDeal": likeDeal,
+            "buyDeal": buyDeal,
+            "cancelDeal": cancelDeal,
+            "dislikeDeal": dislikeDeal,
+            "searchDealsBySpot": searchDealsBySpot,
+            "findDealsByUser": findDealsByUser,
+            "updateDeal": updateDeal,
+            "deleteDeal": deleteDeal,
+            "findDealBySpot": findDealBySpot,
             // "findUserById": findUserById,
             // "findUserByUsername": findUserByUsername,
             // "findUserByCredentials": findUserByCredentials,
@@ -19,23 +24,132 @@
             // "login": login,
             // "logout": logout,
             // "sAdmin": isAdmin,
-            // "findAllUsers": findAllUsers
+            "findAllDeals": findAllDeals,
+            "findDealsByLike": findDealsByLike,
         };
         return api;
 
-        // function findUserById(userId) {
-        //     return $http.get('/api/user', userId)
-        //         .then(function (response) {
-        //             return response.data;
-        //         });
-        // }
+        function findDealBySpot(spot) {
+            return $http.get('/api/deal/spot/' + spot)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function deleteDeal(dealId, userId) {
+            console.log("dsdsd")
+            return $http.delete('/api/deal/' + dealId + '/' + userId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function findDealsByLike(userId) {
+            console.log("step 2");
+            return $http.get('/api/deal/like/' + userId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function dislikeDeal(dealId, userId) {
+            return $http.put('/api/deal/dislike',
+                {"userId": userId, "dealId": dealId})
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function cancelDeal(dealId, userId) {
+            return $http.put('/api/deal/cancel',
+                {"userId": userId, "dealId": dealId})
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function findDealsByUser(userId) {
+            return $http.get('/api/deal/user/' + userId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function likeDeal(dealId, userId) {
+            return $http.put('/api/deal/like/', {
+                "dealId": dealId,
+                "userId": userId
+            })
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function buyDeal(dealId, userId) {
+            return $http.put('/api/deal/buy/', {
+                "dealId": dealId,
+                "userId": userId
+            })
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function findDealById(dealId) {
+            return $http.get('/api/deal/' + dealId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
         //
-        // function findAllUsers() {
-        //     return $http.get('/api/admin/user')
-        //         .then(function (response) {
-        //             return response.data;
-        //         });
-        // }
+        function findAllDeals() {
+            return $http.get('/api/deals')
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function searchDealsBySpot(spot) {
+            return $http.get('/api/deals/' + spot)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
         //
         // function isAdmin() {
         //     return $http.get('/api/isAdmin')
@@ -73,7 +187,7 @@
             console.log("here");
             return $http.post('/api/deal', deal)
                 .then(function (response) {
-                    if(response){
+                    if (response) {
                         return response.data;
                     }
                     else
@@ -81,13 +195,13 @@
                 });
         }
 
-        // function updateUser(userId, user) {
-        //     return $http.put('/api/user/' + userId, user)
-        //         .then(function (response) {
-        //             return response.data;
-        //         },function(err){
-        //             return null;
-        //         });
-        // }
+        function updateDeal(dealId, deal) {
+            return $http.put('/api/deal/' + dealId, deal)
+                .then(function (response) {
+                    return response.data;
+                }, function (err) {
+                    return null;
+                });
+        }
     }
 })();

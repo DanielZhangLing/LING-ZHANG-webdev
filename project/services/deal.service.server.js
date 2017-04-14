@@ -6,31 +6,181 @@
  */
 module.exports = function (app, model) {
 
-    // app.get("/api/user", findUser);
-    // app.get("/api/spot/:spotId", findSpotById);
+    app.get("/api/deals", findAllDeals);
+    app.get("/api/deal/:did", findDealById);
     // app.post("/api/spot", createSpot);
     // app.get("/api/spot/:pid", findSpotByGeoId)
+    app.get("/api/deals/:spot", searchDealsBySpot);
     app.post("/api/deal", createDeal);
-    // app.put("/api/user/:userId", updateUser);
-    // app.delete("/api/user/:userId", deleteUser);
+    app.put("/api/deal/like/", likeDeal);
+    app.put("/api/deal/buy/", buyDeal);
+    app.put("/api/deal/dislike/", dislikeDeal);
+    app.put("/api/deal/cancel/", cancelDeal);
+    app.get("/api/deal/user/:userId", findDealsByUser);
+    app.get("/api/deal/like/:userId", findDealsByLike);
+    app.put("/api/deal/:dealId", updateDeal);
+    app.delete("/api/deal/:did/:uid", deleteDeal);
+    app.get('/api/deal/spot/:spot', findDealBySpot);
 
     dealModel = model.dealModel;
     userModel = model.userModel;
 
-    // function findSpotByGeoId(req,res){
-    //     console.log("asd");
-    //     spotModel
-    //         .findSpotByGeoId(req.params.pid)
-    //         .then(function (spot) {
-    //             if (!spot) {
-    //                 console.log("namgdado");
-    //                 res.send(500);
-    //             } else {
-    //                 console.log(spot);
-    //                 res.json(spot);
-    //             }
-    //         });
-    // }
+    function findDealsByLike(req, res) {
+        console.log("step 3");
+        var dealId = req.params.userId;
+        var result = [];
+        userModel.findUserById(dealId)
+            .then(
+                function (user) {
+                    return user;
+                },
+                function (error) {
+                    res.sendStatus(404);
+                }
+            )
+            .then(
+                function (user) {
+                    dealModel.findDealByIds(user.likeDeal)
+                        .then(
+                            function (deals) {
+                                res.json(deals);
+                            },
+                            function (error) {
+                                res.sendStatus(404);
+                            }
+                        );
+                })
+    }
+
+
+    function findDealBySpot(req, res) {
+        dealModel.findDealBySpot(req.params.spot)
+            .then(
+                function (deals) {
+                    console.log(deals)
+                    res.json(deals);
+                },
+                function (error) {
+                    res.sendStatus(404);
+                }
+            );
+    }
+
+    function findDealsByUser(req, res) {
+        dealModel.findDealsByUser(req.params.userId)
+            .then(
+                function (deals) {
+                    console.log("1");
+                    res.json(deals);
+                },
+                function (error) {
+                    console.log("2");
+                    res.sendStatus(404);
+                }
+            );
+    }
+
+    function searchDealsBySpot(req, res) {
+        dealModel
+            .searchDealsBySpot(req.params.spot)
+            .then(function (deals) {
+                if (!deals || deals.length == 0) {
+                    res.send(500);
+                } else {
+                    res.json(deals);
+                }
+            });
+    }
+
+    function likeDeal(req, res) {
+        var dealId = req.body.dealId;
+        var userId = req.body.userId;
+        dealModel.addLikeForDeal(dealId, userId)
+            .then(function (deal) {
+                result = deal;
+                return model
+                    .userModel
+                    .addLikeDealForUser(dealId, userId);
+            })
+            .then(function (user) {
+                if (!user) {
+                    res.send(500);
+                } else {
+                    res.json(result);
+                }
+            });
+    }
+
+    function buyDeal(req, res) {
+        var dealId = req.body.dealId;
+        var userId = req.body.userId;
+        dealModel.addBuyForDeal(dealId, userId)
+            .then(function (deal) {
+                result = deal;
+                return model
+                    .userModel
+                    .addDealForUser(dealId, userId);
+            })
+            .then(function (user) {
+                if (!user) {
+                    res.send(500);
+                } else {
+                    res.json(result);
+                }
+            });
+    }
+
+    function dislikeDeal(req, res) {
+        var dealId = req.body.dealId;
+        var userId = req.body.userId;
+        var result;
+        dealModel.deleteLikeForDeal(dealId, userId)
+            .then(function (deal) {
+                result = deal;
+                return model
+                    .userModel
+                    .deleteLikeDealForUser(dealId, userId);
+            })
+            .then(function (user) {
+                if (!user) {
+                    res.send(500);
+                } else {
+                    res.json(result);
+                }
+            });
+    }
+
+    function cancelDeal(req, res) {
+        var dealId = req.body.dealId;
+        var userId = req.body.userId;
+        var result;
+        dealModel.deleteBuyForDeal(dealId, userId)
+            .then(function (deal) {
+                result = deal;
+                return model
+                    .userModel
+                    .deleteDealForUser(dealId, userId);
+            })
+            .then(function (user) {
+                if (!user) {
+                    res.send(500);
+                } else {
+                    res.json(result);
+                }
+            });
+    }
+
+    function findDealById(req, res) {
+        dealModel
+            .findDealById(req.params.did)
+            .then(function (deal) {
+                if (!deal) {
+                    res.send(500);
+                } else {
+                    res.json(deal);
+                }
+            });
+    }
 
     // function createSpot(req, res) {
     //     newSpot = req.body;
@@ -106,7 +256,7 @@ module.exports = function (app, model) {
                     result = deal;
                     return model
                         .userModel
-                        .addDealForUser(deal.author, deal);
+                        .postDealForUser(deal.author, deal);
                 }
             )
             .then(
@@ -116,18 +266,18 @@ module.exports = function (app, model) {
                     res.sendStatus(500);
                 });
     }
+
     //
-    // function findAllUsers(req, res) {
-    //     userModel
-    //         .findAllUsers()
-    //         .then(function (users) {
-    //             if (err) {
-    //                 res.send(500);
-    //             } else {
-    //                 res.json(users);
-    //             }
-    //         });
-    // }
+    function findAllDeals(req, res) {
+        dealModel
+            .findAllDeals()
+            .then(function (deals) {
+                res.json(deals);
+            }, function (error) {
+                res.sendStatus(500);
+            });
+    }
+
     //
     // function updateUser(req, res) {
     //     userModel
@@ -141,17 +291,33 @@ module.exports = function (app, model) {
     //         });
     // }
     //
-    // function deleteUser(req, res) {
-    //     userModel
-    //         .deleteUser(req.params.userId)
-    //         .then(function (status) {
-    //             if (err) {
-    //                 res.send(500);
-    //             } else {
-    //                 res.json(status);
-    //             }
-    //         });
-    // }
+    function deleteDeal(req, res) {
+        var dealId = req.params.did;
+        var userId = req.params.uid;
+        dealModel
+            .deleteDeal(dealId)
+            .then(
+                function (user) {
+                    return user;
+                },
+                function (error) {
+                    res.sendStatus(404);
+                })
+            .then(
+                function (status) {
+                    userModel
+                        .deletePostDealForUser(dealId, userId)
+                        .then(function (user) {
+                            if (user) {
+                                res.json(user);
+                            } else {
+                                res.send(500);
+                            }
+                        })
+                }
+            )
+    }
+
     //
     // function serializeUser(user, done) {
     //     done(null, user);
@@ -180,17 +346,15 @@ module.exports = function (app, model) {
     //     }
     // }
     //
-    // function updateUser(req, res) {
-    //     var userId = req.params.userId;
-    //     var newUser = req.body;
-    //     userModel.updateUser(userId, newUser)
-    //         .then(
-    //             function (status) {
-    //                 res.json(status);
-    //             },
-    //             function (error) {
-    //                 res.sendStatus(400);
-    //             }
-    //         );
-    // }
+    function updateDeal(req, res) {
+        dealModel.updateDeal(req.params.dealId, req.body)
+            .then(
+                function (status) {
+                    res.json(status);
+                },
+                function (error) {
+                    res.sendStatus(400);
+                }
+            );
+    }
 };

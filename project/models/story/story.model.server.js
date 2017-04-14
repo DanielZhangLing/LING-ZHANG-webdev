@@ -95,7 +95,7 @@ module.exports = function () {
         StoryModel.findById(storyId)
             .then(function (story) {
                 story.likeUser.pop(userId);
-                story.save(function (err, user) {
+                story.save(function (err, story) {
                     if (err) {
                         d.reject();
                     } else {
@@ -112,7 +112,7 @@ module.exports = function () {
         StoryModel.findById(storyId)
             .then(function (story) {
                 story.likeUser.push(userId);
-                story.save(function (err, user) {
+                story.save(function (err, story) {
                     if (err) {
                         d.reject();
                     } else {

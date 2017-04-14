@@ -8,6 +8,7 @@
             "createReview": createReview,
             "findReviewByStory": findReviewByStory,
             "findReviewsByUser": findReviewsByUser,
+            "findReviewByDeal": findReviewByDeal,
             "deleteMyReview": deleteMyReview,
         };
         return api;
@@ -37,6 +38,16 @@
 
         function findReviewByStory(storyId) {
             return $http.get('/api/review/story/' + storyId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function findReviewByDeal(dealId) {
+            return $http.get('/api/review/deal/' + dealId)
                 .then(function (response) {
                     if (response)
                         return response.data;

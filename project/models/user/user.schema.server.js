@@ -19,6 +19,7 @@ module.exports = function () {
         likeStory: [{type: mongoose.Schema.Types.ObjectId, ref: 'StoryModel'}],
         myDeal: [{type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'}],
         likeDeal: [{type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'}],
+        postDeal: [{type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'}],
         deal: [{type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'}],
         dateCreated: {type:Date, default: Date.now()}
     }, {collection: 'project.user'});
