@@ -257,7 +257,7 @@ module.exports = function () {
             .create(user,
                 function (err, user) {
                     if (err) {
-                        d.abort(err);
+                        d.reject(err);
                     } else {
                         d.resolve(user);
                     }

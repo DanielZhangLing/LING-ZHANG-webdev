@@ -156,31 +156,26 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <!-- Product 2 -->
-                                        <div class="card product-card mb-4">
+                                        <div ng-repeat="deal in model.deals" class="card product-card mb-4">
                                             <!-- Content -->
                                             <div class="card-block p-3 pos-relative row">
                                                 <!-- Image content -->
                                                 <div class="col-md-4 mb-2 mb-md-0">
-                                                    <img class="rounded img-fluid" src="assets/img/shop/shoes-2.jpg"
-                                                         alt="Card image cap">
+                                                    <img class="rounded img-fluid" src="{{deal.image}}" alt="Card image cap">
                                                 </div>
                                                 <!-- Product details -->
                                                 <div class="col-md-8 d-flex flex-column align-items-start">
-                                                    <p class="text-muted text-uppercase text-xs mb-0"><span
-                                                            class="text-primary">Story</span> / place</p>
+                                                    <p class="text-muted text-uppercase text-xs mb-0"><span class="text-primary">Story</span> / {{deal.spot}}</p>
                                                     <h4 class="card-title mb-2">
-                                                        <a href="shop-product.htm" class="text-grey-dark">Deal Title</a>
+                                                        <a href="#/deal/{{deal._id}}" class="text-grey-dark">{{deal.title}}</a>
                                                     </h4>
-                                                    <p class="font-weight-bold">$49.99</p>
-                                                    <!--<p class="pos-md-absolute pos-t pos-r mr-3 text-md-right"> <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i> <i class="fa fa-star text-primary"></i> <i class="fa fa-star-o text-primary"></i> </p>-->
-                                                    <p class="text-muted text-xs">description.</p>
+                                                    <p class="font-weight-bold">${{deal.price}}</p>
+                                                    <!--<p class="pos-md-absolute pos-t pos-r mr-3 text-md-right"> <i class="fa fa-star text-primary"></i></p>-->
+                                                    <p class="text-muted text-xs">{{model.htmlToPlaintext(deal.description)}}</p>
                                                     <div class="mt-auto">
-                                                        <a href="shop-cart.htm" class="btn btn-primary btn-sm"><i
-                                                                class="fa fa-folder-open-o mr-2"></i> Details</a>
-                                                        <a href="#" class="btn btn-link btn-sm"><i
-                                                                class="fa fa-trash"></i> Delete this Deals</a>
-                                                        <p class="text-muted text-xs d-inline hidden-md-down">129 people
-                                                            lke it</p>
+                                                        <a href="#/deal/{{deal._id}}" class="btn btn-primary btn-sm"><i class="fa fa-folder-open-o mr-2"></i> Details</a>
+                                                        <!--<a href="#" class="btn btn-link btn-sm"><i class="fa fa-trash"></i> Delete this Deals</a>-->
+                                                        <p class="text-muted text-xs d-inline hidden-md-down">{{deal.likeUser.length}} people lke it</p>
                                                     </div>
                                                 </div>
                                             </div>

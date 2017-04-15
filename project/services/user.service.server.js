@@ -8,7 +8,6 @@ module.exports = function (app, model) {
 
     var auth = authorized;
 
-    // app.get("/api/user", findUser);
     app.post("/api/user", createUser);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
@@ -17,6 +16,7 @@ module.exports = function (app, model) {
     app.post('/api/login', passport.authenticate('local'), login);
     app.get('/api/loggedIn', loggedIn);
     app.get('/api/isAdmin', isAdmin);
+    app.get('/api/isMerchant', isMerchant);
     app.post('/api/logout', logout);
     app.get('/api/user/:userId', findUserById);
     app.get('/api/user/:username', findUserByUsername);
@@ -99,7 +99,6 @@ module.exports = function (app, model) {
 
     function register(req, res) {
         var newUser = req.body;
-        newUser.type = ['user'];
 
         console.log('register');
         console.log(newUser);
@@ -155,7 +154,11 @@ module.exports = function (app, model) {
     }
 
     function isAdmin(req, res) {
-        res.send(req.isAuthenticated() && req.user.roles && req.user.roles.indexOf('ADMIN') > -1 ? req.user : '0');
+        res.send(req.isAuthenticated() && req.user.type && req.user.type.indexOf('ADMIN') > -1 ? req.user : '0');
+    }
+
+    function isMerchant(req, res) {
+        res.send(req.isAuthenticated() && req.user.type && req.user.type.indexOf('MERCHANT') > -1 ? req.user : '0');
     }
 
     function findUserById(req, res) {

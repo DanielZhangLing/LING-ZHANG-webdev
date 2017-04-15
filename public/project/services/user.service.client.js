@@ -16,7 +16,8 @@
             "loggedIn": loggedIn,
             "login": login,
             "logout": logout,
-            "sAdmin": isAdmin,
+            "isAdmin": isAdmin,
+            "isMerchant": isMerchant,
             "findAllUsers": findAllUsers,
 
         };
@@ -41,6 +42,13 @@
 
         function isAdmin() {
             return $http.get('/api/isAdmin')
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function isMerchant() {
+            return $http.get('/api/isMerchant')
                 .then(function (response) {
                     return response.data;
                 });
@@ -74,7 +82,10 @@
         function register(user) {
             return $http.post('/api/register', user)
                 .then(function (response) {
-                    return response.data;
+                    if(response)
+                        return response.data;
+                    else
+                        return null;
                 });
         }
 

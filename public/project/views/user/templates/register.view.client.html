@@ -21,6 +21,14 @@
                 <label class="sr-only" for="signup-rePassword-page">Password</label>
                 <input ng-model="rePassword" type="password" class="form-control" id="signup-rePassword-page" placeholder="Password">
             </div>
+            <div class="form-group">
+            <select class="form-control" ng-init="user.type='USER'" ng-model="user.type" id="signup-type-page">
+                <option value="USER">Type</option>
+                <option value="USER">User</option>
+                <option value="MERCHANT">Merchant</option>
+                <option value="ADMIN">Admin</option>
+            </select>
+            </div>
             <hr/>
             <h5>
                 Account Information
@@ -44,7 +52,7 @@
             <div class="form-group">
                 <label class="sr-only" for="signup-state-page">State</label>
                 <select class="form-control" ng-init="user.state='State'" ng-model="user.state" id="signup-state-page">
-                    <option value="unknown">State</option>
+                    <option value="State">State</option>
                     <option value="Alabama">Alabama</option>
                     <option value="Alaska">Alaska</option>
                     <option value="Arizona">Arizona</option>

@@ -10,10 +10,11 @@
         vm.register = register;
 
         function register(user) {
+            console.log(user);
             userService
                 .register(user)
                 .then(function () {
-                        $location.url('/user/' + user.id);
+                        $location.url('/user/' + user._id);
                     },
                     function (err) {
                         if (err) {

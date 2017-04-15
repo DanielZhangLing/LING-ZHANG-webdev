@@ -18,7 +18,7 @@ module.exports = function () {
         // findSpotByGeoId: findSpotByGeoId,
         createDeal: createDeal,
         searchDealsBySpot: searchDealsBySpot,
-        findDealsByUser: findDealsByUser,
+        findPostDealsByUser: findPostDealsByUser,
         updateDeal: updateDeal,
         findDealByIds: findDealByIds,
         findDealBySpot: findDealBySpot,
@@ -46,7 +46,7 @@ module.exports = function () {
         return d.promise;
     }
 
-    function findDealsByUser(userId) {
+    function findPostDealsByUser(userId) {
         var d = q.defer();
         DealModel
             .find({author: userId},

@@ -14,14 +14,13 @@ module.exports = function () {
         state: String,
         pic: String,
         myReview: [{type: mongoose.Schema.Types.ObjectId, ref: 'ReviewModel'}],
-        type: {type: String, enum: ['user', 'admin']},
+        type: {type: String, enum: ['USER', 'MERCHANT', 'ADMIN']},
         myStory: [{type: mongoose.Schema.Types.ObjectId, ref: 'StoryModel'}],
         likeStory: [{type: mongoose.Schema.Types.ObjectId, ref: 'StoryModel'}],
         myDeal: [{type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'}],
         likeDeal: [{type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'}],
         postDeal: [{type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'}],
-        deal: [{type: mongoose.Schema.Types.ObjectId, ref: 'DealModel'}],
-        dateCreated: {type:Date, default: Date.now()}
+        dateCreated: {type: Date, default: Date.now()}
     }, {collection: 'project.user'});
 
     return UserSchema;

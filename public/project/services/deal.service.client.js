@@ -26,6 +26,7 @@
             // "sAdmin": isAdmin,
             "findAllDeals": findAllDeals,
             "findDealsByLike": findDealsByLike,
+            "findPostDealsByUser": findPostDealsByUser,
         };
         return api;
 
@@ -84,6 +85,16 @@
         }
 
         function findDealsByUser(userId) {
+            return $http.get('/api/deal/buy/' + userId)
+                .then(function (response) {
+                    if (response)
+                        return response.data;
+                    else
+                        return null;
+                });
+        }
+
+        function findPostDealsByUser(userId) {
             return $http.get('/api/deal/user/' + userId)
                 .then(function (response) {
                     if (response)

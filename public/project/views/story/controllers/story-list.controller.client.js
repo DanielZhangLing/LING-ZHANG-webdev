@@ -37,24 +37,12 @@
         }
 
         function search(keyword) {
-            vm.keyword = keyword;
-            storyService
-                .searchStoriesBySpot(keyword)
-                .then(function (stories) {
-                    if (stories) {
-                        vm.allStories = stories;
-                        vm.stories = vm.allStories.slice(0, vm.rows);
-                        console.log(vm.stories)
-                    }
-                    else {
-                        vm.error = "Cannot find story you want!"
-                    }
-                })
+            vm.stories = $filter('filter')(vm.allStories, keyword).slice(0, vm.rows);
         }
 
         function showMore() {
             vm.rows = vm.rows + 10;
-            vm.stories = vm.allStories.slice(0, vm.rows);
+            vm.stories = $filter('filter')(vm.allStories, keyword).slice(0, vm.rows);
         }
 
     }

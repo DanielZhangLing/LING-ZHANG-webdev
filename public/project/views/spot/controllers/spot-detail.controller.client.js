@@ -5,7 +5,7 @@
     angular
         .module("ZipStory")
         .controller("SpotDetailController", SpotDetailController);
-    function SpotDetailController(storyService, $sce, spotService, $routeParams, $location) {
+    function SpotDetailController(dealService,storyService, $sce, spotService, $routeParams, $location) {
         var vm = this;
         vm.spotId = $routeParams["pid"];
         vm.getTrustedHtml = getTrustedHtml;
@@ -22,6 +22,17 @@
                                 if(stories) {
                                     console.log(stories);
                                     vm.stories = stories;
+                                    dealService
+                                        .findDealBySpot(vm.spot.title)
+                                        .then(function(deals){
+                                            if(deals) {
+                                                console.log(deals);
+                                                vm.deals = deals;
+                                            }
+                                            else{
+                                                vm.error = "can't find select stories, please try again!"
+                                            }
+                                        });
                                 }
                                 else{
                                     vm.error = "can't find select stories, please try again!"

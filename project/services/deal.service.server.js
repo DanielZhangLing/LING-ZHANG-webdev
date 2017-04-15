@@ -16,8 +16,9 @@ module.exports = function (app, model) {
     app.put("/api/deal/buy/", buyDeal);
     app.put("/api/deal/dislike/", dislikeDeal);
     app.put("/api/deal/cancel/", cancelDeal);
-    app.get("/api/deal/user/:userId", findDealsByUser);
+    app.get("/api/deal/buy/:userId", findDealsByUser);
     app.get("/api/deal/like/:userId", findDealsByLike);
+    app.get("/api/deal/user/:userId", findPostDealsByUser);
     app.put("/api/deal/:dealId", updateDeal);
     app.delete("/api/deal/:did/:uid", deleteDeal);
     app.get('/api/deal/spot/:spot', findDealBySpot);
@@ -28,7 +29,6 @@ module.exports = function (app, model) {
     function findDealsByLike(req, res) {
         console.log("step 3");
         var dealId = req.params.userId;
-        var result = [];
         userModel.findUserById(dealId)
             .then(
                 function (user) {
@@ -66,8 +66,8 @@ module.exports = function (app, model) {
             );
     }
 
-    function findDealsByUser(req, res) {
-        dealModel.findDealsByUser(req.params.userId)
+    function findPostDealsByUser(req, res) {
+        dealModel.findPostDealsByUser(req.params.userId)
             .then(
                 function (deals) {
                     console.log("1");
@@ -78,6 +78,32 @@ module.exports = function (app, model) {
                     res.sendStatus(404);
                 }
             );
+    }
+
+    function findDealsByUser(req, res) {
+        console.log("step 3");
+        var dealId = req.params.userId;
+        userModel.findUserById(dealId)
+            .then(
+                function (user) {
+                    return user;
+                },
+                function (error) {
+                    res.sendStatus(404);
+                }
+            )
+            .then(
+                function (user) {
+                    dealModel.findDealByIds(user.myDeal)
+                        .then(
+                            function (deals) {
+                                res.json(deals);
+                            },
+                            function (error) {
+                                res.sendStatus(404);
+                            }
+                        );
+                })
     }
 
     function searchDealsBySpot(req, res) {

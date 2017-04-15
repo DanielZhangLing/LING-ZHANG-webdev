@@ -4,7 +4,7 @@
             Edit Story
         </h3>
         <!-- Page header breadcrumb -->
-        <nav class="breadcrumb float-md-right"><a class="breadcrumb-item" href="#/login">Home</a>
+        <nav class="breadcrumb float-md-right"><a class="breadcrumb-item" href="#/">Home</a>
             <a class="breadcrumb-item" href="#/story">Story</a>
             <a class="breadcrumb-item" href="#/story/{{model.storyId}}">Detail</a>
             <span class="breadcrumb-item active">Edit Story</span>
@@ -20,12 +20,12 @@
                     <!-- Content -->
                     <div class="card-block p-4 pos-relative">
                         <!-- Product details -->
-                        <input ng-model="model.story.title" type="text" class="noBorder form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Title">
+                        <input ng-model="model.story.title" type="text" class="noBorder form-control"  placeholder="Title">
                         <hr class="my-3">
-                        <input disabled ng-model="model.story.spot" type="text" class="noBorder form-control" id="aa" aria-describedby="emailHelp" placeholder="Spot">
+                        <input disabled ng-model="model.story.spot" type="text" class="noBorder form-control" placeholder="Spot">
 
                         <hr class="my-3">
-                        <textarea ng-model="model.story.description" class="form-control noBorder" id="exampleTextarea" rows="10" placeholder="Passage..."></textarea>
+                        <textarea ng-model="model.story.description" class="form-control noBorder" rows="10" placeholder="Passage..."></textarea>
                         <!--<p class="text-muted text-sm">Acsi facilisis fere quibus quidne. Distineo elit et illum in incassum lenis magna typicus vel. Damnum ideo iriure letalis minim nulla.</p>-->
                         <hr class="my-3 mb-5">
                         <button ng-click="model.updateStory(model.storyId, model.story)" class="btn btn-primary"><i class="fa fa-rss"></i> Update</button>

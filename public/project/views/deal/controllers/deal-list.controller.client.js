@@ -37,24 +37,12 @@
         }
 
         function search(keyword) {
-            vm.keyword = keyword;
-            dealService
-                .searchDealsBySpot(keyword)
-                .then(function (deals) {
-                    if (deals) {
-                        vm.allDeals = deals;
-                        vm.deals = vm.allDeals.slice(0, vm.rows);
-                        console.log(vm.deals)
-                    }
-                    else {
-                        vm.error = "Cannot find deal you want!"
-                    }
-                })
+            vm.deals = $filter('filter')(vm.allDeals, keyword).slice(0, vm.rows);
         }
 
         function showMore() {
             vm.rows = vm.rows + 10;
-            vm.deals = vm.allDeals.slice(0, vm.rows);
+            vm.deals = $filter('filter')(vm.allDeals, keyword).slice(0, vm.rows);
         }
 
     }
