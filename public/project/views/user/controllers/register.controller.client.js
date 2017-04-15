@@ -14,7 +14,7 @@
             userService
                 .register(user)
                 .then(function () {
-                        $location.url('/user/' + user._id);
+                        $location.url('/profile');
                     },
                     function (err) {
                         if (err) {

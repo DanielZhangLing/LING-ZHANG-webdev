@@ -1,5 +1,5 @@
 module.exports = function () {
-    var connectionString = 'mongodb://127.0.0.1:27017/project'
+    var connectionString = 'mongodb://127.0.0.1:27017/project';
     if (process.env.MLAB_USERNAME) {
         connectionString = process.env.MLAB_USERNAME + ":" +
             process.env.MLAB_PASSWORD + "@" +
@@ -8,7 +8,7 @@ module.exports = function () {
             process.env.MLAB_APP_NAME;
     }
     var mongoose = require("mongoose");  // npm install mongoose --save
-    mongoose.createConnection(connectionString);
+    mongoose.connect(connectionString);
     var model = {
         userModel: require("./user/user.model.server.js")(),
         spotModel: require("./spot/spot.model.server.js")(),
